@@ -25,3 +25,7 @@ Route::post('auth/register', [AuthController::class, 'register']);
 
 // user actions
 Route::get('/users ', function () { return UserResource::collection(User::all()); });
+
+// product actions
+Route::get('/Product ', function () { return UserResource::collection(User::all()); });
+
