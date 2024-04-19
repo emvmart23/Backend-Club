@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Models\User;
+use App\Http\Resources\UserResource;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,5 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// user authentication
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::post('auth/register', [AuthController::class, 'register']);
+
+// user actions
+Route::get('/users ', function () { return UserResource::collection(User::all()); });
