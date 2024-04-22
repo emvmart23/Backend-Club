@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    public function category(){
+        return $this->belongsTo("App\Category");
+    }
+
+    public function unitMeasure(){
+        return $this->belongsTo("App\UnitMeasure");
+    }
 }

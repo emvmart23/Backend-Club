@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 /*
@@ -15,17 +16,13 @@ use App\Http\Resources\UserResource;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // user authentication
-Route::post('auth/login', [AuthController::class, 'login']);
-Route::post('auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/register', [AuthController::class, 'register']);
 
 // user actions
 Route::get('/users ', function () { return UserResource::collection(User::all()); });
+Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+Route::patch('/users/update/{id}', [UserController::class, 'update']);
 
 // product actions
-Route::get('/Product ', function () { return UserResource::collection(User::all()); });
-

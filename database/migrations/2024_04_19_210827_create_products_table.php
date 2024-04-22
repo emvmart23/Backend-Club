@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('category'); 
-            $table->string('unit_measures');
-            $table->string('has_alcohol');
+            $table->unsignedBigInteger('category_id'); 
+            $table->unsignedBigInteger('unit_id');
+            $table->boolean('has_alcohol')->default(false);
             $table->timestamps();
+
+            $table->foreign('category_id')->references('category_id')->on('categories');
+            $table->foreign('unit_id')->references('unit_id')->on('unit_measures');
         });
     }
 
