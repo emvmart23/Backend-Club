@@ -19,28 +19,29 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            "message" => "Usuario Eliminado"
+            "message" => "Usuario deleted"
         ]);
     }
 
     public function update(Request $request, $id){
-        $data = $request->validate([
-            "user" => ["sttring"],
-            "name" => ["string"],
-            "rol_id" => ["integer"],
-        ]);
-        
         $user = User::find($id);
-
+        
         if(!$user){
             return response()->json([
                 "message" => "User not found"
             ],404);
         }
 
+        $data = $request->validate([
+            "user" => "sometimes|string",
+            "name" => "sometimes|string",
+            "role_id" => "sometimes|integer",
+        ]);
+        
         $user->update($data);
+
         return response()->json([
-            "message" => "Usuario Actualizado"
+            "message" => "Usuario updated"
         ]);
     }
 }

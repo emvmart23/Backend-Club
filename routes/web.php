@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 /*
@@ -26,3 +27,21 @@ Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('u
 Route::patch('/users/update/{id}', [UserController::class, 'update']);
 
 // product actions
+Route::get('/products, {id}', [ProductController::class, 'show']);
+Route::post('/product/create', [ProductController::class, 'create']);
+Route::delete('/products/delete/{id}', [ProductController::class, 'delete']);
+Route::patch('/products/update/{id}', [ProductController::class, 'update']);
+
+// unit_measures actions
+Route::get('/unit_measures, {id}', [ProductController::class, 'show']);
+Route::post('/unit_measures/create', [ProductController::class, 'create']);
+Route::delete('/unit_measures/delete/{id}', [ProductController::class, 'delete']);
+Route::patch('/unit_measures/update/{id}', [ProductController::class, 'update']);
+
+// categories actions
+Route::get('/categories, {id}', [ProductController::class, 'show']);
+Route::post('/categories/create', [ProductController::class, 'create']);
+Route::delete('/categories/delete/{id}', [ProductController::class, 'delete']);
+Route::patch('/categories/update/{id}', [ProductController::class, 'update']);
+
+
