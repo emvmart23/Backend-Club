@@ -14,7 +14,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             "name" => "required",
-            "category_id" => "required|confirmed",
+            "category_id" => "required|integer",
             "unit_id" => "required|integer",
             "has_alcohol" => "required|boolean"
         ]);
@@ -30,15 +30,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show()
     {
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json([
-                "message" => "Product not found"
-            ],404);
-        }
+        $product = Product::all();
 
         return response()->json([
             "product" => $product
@@ -60,7 +54,9 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "name" => "sometimes|string",
-            "description" => "sometimes|string",
+            "category_id" => "sometimes|integer",
+            "unit_id" => "sometimes|integer",
+            "has_alcohol" => "sometimes|boolean"
         ]);
 
         $product->update($data);
@@ -68,7 +64,6 @@ class ProductController extends Controller
         return response()->json([
             "message" => "Product updated"
         ]);
-
     }
 
     /**

@@ -27,8 +27,8 @@ Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('u
 Route::patch('/users/update/{id}', [UserController::class, 'update']);
 
 // product actions
-Route::get('/products, {id}', [ProductController::class, 'show']);
-Route::post('/product/create', [ProductController::class, 'create']);
+Route::get('/products', [ProductController::class, 'show']);
+Route::post('/products/create', [ProductController::class, 'create']);
 Route::delete('/products/delete/{id}', [ProductController::class, 'delete']);
 Route::patch('/products/update/{id}', [ProductController::class, 'update']);
 
