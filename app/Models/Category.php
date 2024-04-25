@@ -9,7 +9,13 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'category_id';
+
     public function products(){
         return $this->hasMany("App\Product");
     }
+
+    protected $fillable = [
+        'name'
+    ];
 }

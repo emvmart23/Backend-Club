@@ -16,4 +16,10 @@ class Product extends Model
     public function unitMeasure(){
         return $this->belongsTo("App\UnitMeasure");
     }
+    protected $fillable = [
+        'name',
+        'category_id',
+        'unit_id',
+        'has_alcohol'
+    ];
 }

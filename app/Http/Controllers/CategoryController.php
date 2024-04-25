@@ -13,10 +13,7 @@ class CategoryController extends Controller
     public function create(Request $request)
     {
         $data = $request->validate([
-            "user" => "required|unique:users",
-            "name" => "required",
-            "password" => "required|confirmed",
-            "role_id" => "required|integer"
+            "name" => "required|unique:categories",
         ]);
 
         $productData = $data;
@@ -30,15 +27,9 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show()
     {
-        $category = Category::find($id);
-
-        if (!$category) {
-            return response()->json([
-                "message" => "Category not found"
-            ],404);
-        }
+        $category = Category::all();
 
         return response()->json([
             "category" => $category
@@ -50,7 +41,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $category = Category::find($id);
+        $category = Category::where('category_id', $id)->first();
 
         if(!$category){
             return response()->json([
@@ -60,15 +51,13 @@ class CategoryController extends Controller
 
         $data = $request->validate([
             "name" => "sometimes|string",
-            "description" => "sometimes|string",
         ]);
 
         $category->update($data);
 
         return response()->json([
-            "message" => "Categoria Actualizada"
+            "message" => "Category updated successfully"
         ]);
-
     }
 
     /**

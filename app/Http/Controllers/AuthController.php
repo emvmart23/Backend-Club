@@ -14,7 +14,8 @@ class AuthController extends Controller
             "user" => "required|unique:users",
             "name" => "required",
             "password" => "required|confirmed",
-            "role_id" => "required|integer"
+            "role_id" => "required|integer",
+            "is_active" => "boolean",
         ]);
 
         $userData = $data;
@@ -39,7 +40,7 @@ class AuthController extends Controller
         if (!$user || !Hash::check($fields["password"], $user->password)) {
             return response([
                 "message" => "Credenciales Incorrectas"
-            ]);
+            ], 401);
         }
 
         $token = $user->createToken('my-token')->plainTextToken;

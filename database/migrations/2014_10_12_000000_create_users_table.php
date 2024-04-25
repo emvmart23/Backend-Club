@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->unsignedBigInteger("role_id");
+            $table->boolean("is_active")->default(true);
             $table->timestamps();
 
             $table->foreign('role_id')->references('role_id')->on('roles');

@@ -23,7 +23,8 @@ class ProductController extends Controller
         $product = Product::create($productData);
 
         return response()->json([
-            "Product created successfully"
+            "Product created successfully",
+            "product" => $product
         ]);
     }
 

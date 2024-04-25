@@ -9,7 +9,14 @@ class UnitMeasure extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'unit_id';
+
     public function products(){
         return $this->hasMany("App\Product");
     }
+
+    protected $fillable = [
+        'abbreviation',
+        'description'
+    ];
 }

@@ -16,10 +16,13 @@ class VerifyCsrfToken extends Middleware
         'auth/login',
         'users/delete/*',
         'users/update/*',
+        'products/create',
         'products/delete/*',
         'products/update/*',
         'unit_measures/delete/*',
         'unit_measures/update/*',
+        'categories/create',
         'categories/delete/*',
+        'categories/update/*',
     ];
 }

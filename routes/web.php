@@ -4,8 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UnitMeasureController;
 use App\Models\User;
 use App\Http\Resources\UserResource;
+use App\Models\UnitMeasure;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,19 +33,19 @@ Route::patch('/users/update/{id}', [UserController::class, 'update']);
 // product actions
 Route::get('/products', [ProductController::class, 'show']);
 Route::post('/products/create', [ProductController::class, 'create']);
-Route::delete('/products/delete/{id}', [ProductController::class, 'delete']);
+Route::delete('/products/delete/{id}', [ProductController::class, 'destroy']);
 Route::patch('/products/update/{id}', [ProductController::class, 'update']);
 
 // unit_measures actions
-Route::get('/unit_measures, {id}', [ProductController::class, 'show']);
-Route::post('/unit_measures/create', [ProductController::class, 'create']);
-Route::delete('/unit_measures/delete/{id}', [ProductController::class, 'delete']);
-Route::patch('/unit_measures/update/{id}', [ProductController::class, 'update']);
+Route::get('/unit_measures, {id}', [UnitMeasureController::class, 'show']);
+Route::post('/unit_measures/create', [UnitMeasureController::class, 'create']);
+Route::delete('/unit_measures/delete/{id}', [UnitMeasureController::class, 'destroy']);
+Route::patch('/unit_measures/update/{id}', [UnitMeasureController::class, 'update']);
 
 // categories actions
-Route::get('/categories, {id}', [ProductController::class, 'show']);
-Route::post('/categories/create', [ProductController::class, 'create']);
-Route::delete('/categories/delete/{id}', [ProductController::class, 'delete']);
-Route::patch('/categories/update/{id}', [ProductController::class, 'update']);
+Route::get('/categories', [CategoryController::class, 'show']);
+Route::post('/categories/create', [CategoryController::class, 'create']);
+Route::delete('/categories/delete/{id}', [CategoryController::class, 'destroy']);
+Route::patch('/categories/update/{id}', [CategoryController::class, 'update']);
 
 
