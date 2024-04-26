@@ -5,7 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\RoleController;
 use App\Models\User;
 use App\Http\Resources\UserResource;
 use App\Models\UnitMeasure;
@@ -37,7 +39,7 @@ Route::delete('/products/delete/{id}', [ProductController::class, 'destroy']);
 Route::patch('/products/update/{id}', [ProductController::class, 'update']);
 
 // unit_measures actions
-Route::get('/unit_measures, {id}', [UnitMeasureController::class, 'show']);
+Route::get('/unit_measures', [UnitMeasureController::class, 'show']);
 Route::post('/unit_measures/create', [UnitMeasureController::class, 'create']);
 Route::delete('/unit_measures/delete/{id}', [UnitMeasureController::class, 'destroy']);
 Route::patch('/unit_measures/update/{id}', [UnitMeasureController::class, 'update']);
@@ -47,5 +49,16 @@ Route::get('/categories', [CategoryController::class, 'show']);
 Route::post('/categories/create', [CategoryController::class, 'create']);
 Route::delete('/categories/delete/{id}', [CategoryController::class, 'destroy']);
 Route::patch('/categories/update/{id}', [CategoryController::class, 'update']);
+
+Route::get('/customers', [CustomerController::class, 'show']);
+Route::post('/customers/create', [CustomerController::class, 'create']);
+Route::delete('/customers/delete/{id}', [CustomerController::class, 'destroy']);
+Route::patch('/customers/update/{id}', [CustomerController::class, 'update']);
+
+Route::get('/roles', [RoleController::class, 'show']);
+Route::post('/roles/create', [RoleController::class, 'create']);
+Route::delete('/roles/delete/{id}', [RoleController::class, 'destroy']);
+Route::patch('/roles/update/{id}', [RoleController::class, 'update']);
+
 
 

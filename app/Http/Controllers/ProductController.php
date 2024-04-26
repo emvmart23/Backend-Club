@@ -13,7 +13,8 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $data = $request->validate([
-            "name" => "required",
+            "name" => "required|string",
+            "price" => "required|numeric|between:0,999999.999",
             "category_id" => "required|integer",
             "unit_id" => "required|integer",
             "has_alcohol" => "required|boolean"
@@ -55,6 +56,7 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "name" => "sometimes|string",
+            "price" => "sometimes,|decimal:3",
             "category_id" => "sometimes|integer",
             "unit_id" => "sometimes|integer",
             "has_alcohol" => "sometimes|boolean"

@@ -1,28 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Role;
 
 use Illuminate\Http\Request;
-use App\Models\UnitMeasure;
 
-class UnitMeasureController extends Controller
+class RoleController extends Controller
 {
-
     /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
         $data = $request->validate([
-            "abbreviation" => "required|string",
-            "description" => "required|string",
+            "role_name" => "required|string",
         ]);
 
-        $unitData = $data;
-        $unit = UnitMeasure::create($unitData);
+        $roleData = $data;
+        $role = Role::create($roleData);
 
         return response()->json([
-            "Unit" => $unit
+            "role" => $role
         ]);
     }
 
@@ -31,35 +29,34 @@ class UnitMeasureController extends Controller
      */
     public function show()
     {
-        $unit = UnitMeasure::all();
+        $role = Role::all();
 
         return response()->json([
-            "unit" => $unit
+            "role" => $role
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        $unit = UnitMeasure::find($id);
+        $role = Role::find($id);
 
-        if(!$unit){
+        if(!$role){
             return response()->json([
-                "message" => "unit not found"
+                "message" => "Role not found"
             ],404);
         }
 
         $data = $request->validate([
-            "abbreviation" => "sometimes|string",
-            "description" => "sometimes|string",
+            "role_name" => "sometimes|string",
         ]);
 
-        $unit->update($data);
+        $role->update($data);
 
         return response()->json([
-            "message" => "Unit updated"
+            "message" => "Role updated"
         ]);
     }
 
@@ -68,18 +65,18 @@ class UnitMeasureController extends Controller
      */
     public function destroy($id)
     {
-        $unit = UnitMeasure::find($id);
+        $role = Role::find($id);
 
-        if(!$unit){
+        if(!$role){
             return response()->json([
-                "message" => "unit not found"
+                "message" => "Customer not found"
             ],404);
         }
 
-        $unit->delete();
+        $role->delete();
 
         return response()->json([
-            "message" => "Unit deleted"
+            "message" => "role deleted"
         ]);
     }
 }

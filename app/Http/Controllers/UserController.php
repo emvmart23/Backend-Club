@@ -35,7 +35,10 @@ class UserController extends Controller
         $data = $request->validate([
             "user" => "sometimes|string",
             "name" => "sometimes|string",
+            "salary" => "sometimes|numeric|between:0,999999.999",
+            "profit_margin" => "sometimes|numeric|between:0,999999.999",
             "role_id" => "sometimes|integer",
+            "is_active" => "sometimes|boolean",
         ]);
         
         $user->update($data);

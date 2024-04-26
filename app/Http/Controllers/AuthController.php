@@ -12,8 +12,10 @@ class AuthController extends Controller
     public function register( Request $request ){
         $data = $request->validate([
             "user" => "required|unique:users",
-            "name" => "required",
+            "name" => "required|string",
             "password" => "required|confirmed",
+            "salary" => "required|numeric|between:0,999999.999",
+            "profit_margin" => "required|numeric|between:0,999999.999",
             "role_id" => "required|integer",
             "is_active" => "boolean",
         ]);

@@ -21,6 +21,8 @@ class User extends Authenticatable
         'user',
         'name',
         'password',
+        'salary',
+        'profit_margin',
         'role_id',
         'is_active'
     ];

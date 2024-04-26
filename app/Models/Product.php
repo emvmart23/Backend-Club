@@ -18,6 +18,7 @@ class Product extends Model
     }
     protected $fillable = [
         'name',
+        'price',
         'category_id',
         'unit_id',
         'has_alcohol'

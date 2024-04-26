@@ -3,26 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\UnitMeasure;
+use App\Models\Customer;
 
-class UnitMeasureController extends Controller
+class CustomerController extends Controller
 {
-
     /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)
     {
         $data = $request->validate([
-            "abbreviation" => "required|string",
-            "description" => "required|string",
+            "name" => "required|string",
         ]);
 
-        $unitData = $data;
-        $unit = UnitMeasure::create($unitData);
+        $customer = Customer::create($data);
 
         return response()->json([
-            "Unit" => $unit
+            "Customer" => $customer
         ]);
     }
 
@@ -31,35 +28,34 @@ class UnitMeasureController extends Controller
      */
     public function show()
     {
-        $unit = UnitMeasure::all();
+        $customer = Customer::all();
 
         return response()->json([
-            "unit" => $unit
+            "customer" => $customer
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        $unit = UnitMeasure::find($id);
+        $customer = Customer::find($id);
 
-        if(!$unit){
+        if(!$customer){
             return response()->json([
-                "message" => "unit not found"
+                "message" => "Customer not found"
             ],404);
         }
 
         $data = $request->validate([
-            "abbreviation" => "sometimes|string",
-            "description" => "sometimes|string",
+            "name" => "sometimes|string",
         ]);
 
-        $unit->update($data);
+        $customer->update($data);
 
         return response()->json([
-            "message" => "Unit updated"
+            "message" => "Customer updated"
         ]);
     }
 
@@ -68,18 +64,18 @@ class UnitMeasureController extends Controller
      */
     public function destroy($id)
     {
-        $unit = UnitMeasure::find($id);
+        $customer = Customer::find($id);
 
-        if(!$unit){
+        if(!$customer){
             return response()->json([
-                "message" => "unit not found"
+                "message" => "Customer not found"
             ],404);
         }
 
-        $unit->delete();
+        $customer->delete();
 
         return response()->json([
-            "message" => "Unit deleted"
+            "message" => "Customer deleted"
         ]);
     }
 }
