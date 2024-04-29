@@ -14,8 +14,8 @@ class AuthController extends Controller
             "user" => "required|unique:users",
             "name" => "required|string",
             "password" => "required|confirmed",
-            "salary" => "required|numeric|between:0,999999.999",
-            "profit_margin" => "required|numeric|between:0,999999.999",
+            "salary" => "required|numeric|between:0,999999.99",
+            "profit_margin" => "required|integer",
             "role_id" => "required|integer",
             "is_active" => "boolean",
         ]);

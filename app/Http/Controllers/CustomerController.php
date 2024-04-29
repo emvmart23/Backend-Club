@@ -14,6 +14,7 @@ class CustomerController extends Controller
     {
         $data = $request->validate([
             "name" => "required|string",
+            "dni" => "required|string|min:8|max:8",
         ]);
 
         $customer = Customer::create($data);
@@ -50,6 +51,7 @@ class CustomerController extends Controller
 
         $data = $request->validate([
             "name" => "sometimes|string",
+            "dni" => "sometimes|string|min:8|max:8"
         ]);
 
         $customer->update($data);
