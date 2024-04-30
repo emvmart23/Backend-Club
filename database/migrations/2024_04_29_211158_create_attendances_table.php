@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->boolean('present')->default(false);
-            $table->boolean('absent')->default(false);
             $table->boolean('late')->default(false);
-            $table->boolean('state')->default(false);
-            $table->dateTime('date_now');
-            $table->dateTime('date_box')->default(new \DateTime);
+            $table->boolean('absent')->default(false);
+            $table->unsignedBigInteger('box_id');
+            $table->boolean('open')->default(true);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('box_id')->references('id')->on('box');
         });
     }
 

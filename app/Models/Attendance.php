@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Attendance extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo("App\User");
+    } 
+
+    public function box()
+    {
+        return $this->belongsTo("App\Box");
+    } 
 }
