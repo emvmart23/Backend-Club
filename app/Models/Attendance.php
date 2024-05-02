@@ -12,10 +12,14 @@ class Attendance extends Model
     public function user()
     {
         return $this->belongsTo("App\User");
-    } 
+    }
 
-    public function box()
-    {
-        return $this->belongsTo("App\Box");
-    } 
+    protected $fillable = [
+        'user_id',
+        'present',
+        'absent',
+        'late',
+        'date'
+    ];
+
 }

@@ -17,12 +17,11 @@ return new class extends Migration
             $table->boolean('present')->default(false);
             $table->boolean('late')->default(false);
             $table->boolean('absent')->default(false);
-            $table->unsignedBigInteger('box_id');
-            $table->boolean('open')->default(true);
+            $table->date('date');
             $table->timestamps();
 
+            $table->unique(['user_id', 'date']);
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('box_id')->references('id')->on('box');
         });
     }
 

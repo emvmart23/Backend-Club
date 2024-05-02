@@ -30,6 +30,6 @@ class VerifyCsrfToken extends Middleware
         'roles/delete/*',
         'customers/create',
         'customers/delete/*',
-        'customers/update/*',
+        'attendances/create',
     ];
 }

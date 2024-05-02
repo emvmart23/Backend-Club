@@ -7,10 +7,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UnitMeasureController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\RoleController;
-use App\Models\User;
 use App\Http\Resources\UserResource;
-use App\Models\UnitMeasure;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,3 +59,5 @@ Route::get('/roles', [RoleController::class, 'show']);
 Route::post('/roles/create', [RoleController::class, 'create']);
 Route::delete('/roles/delete/{id}', [RoleController::class, 'destroy']);
 Route::patch('/roles/update/{id}', [RoleController::class, 'update']);
+
+Route::post('/attendances/create', [AttendanceController::class, 'create']);
