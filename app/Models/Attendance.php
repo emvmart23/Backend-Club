@@ -17,9 +17,8 @@ class Attendance extends Model
     protected $fillable = [
         'user_id',
         'present',
-        'absent',
-        'late',
-        'date'
+        'date',
+        'date_box'
     ];
 
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BoxController;
 use App\Http\Controllers\RoleController;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -60,4 +61,8 @@ Route::post('/roles/create', [RoleController::class, 'create']);
 Route::delete('/roles/delete/{id}', [RoleController::class, 'destroy']);
 Route::patch('/roles/update/{id}', [RoleController::class, 'update']);
 
+
 Route::post('/attendances/create', [AttendanceController::class, 'create']);
+
+Route::get('/boxes', [BoxController::class, 'show']);
+Route::post('/boxes/create', [BoxController::class, 'create']);

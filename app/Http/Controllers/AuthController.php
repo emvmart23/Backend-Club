@@ -17,7 +17,7 @@ class AuthController extends Controller
             "salary" => "required|numeric|between:0,999999.99",
             "profit_margin" => "required|integer",
             "role_id" => "required|integer",
-            "is_active" => "boolean",
+            "is_active" => "boolean"
         ]);
 
         $userData = $data;

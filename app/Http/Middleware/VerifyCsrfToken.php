@@ -31,5 +31,6 @@ class VerifyCsrfToken extends Middleware
         'customers/create',
         'customers/delete/*',
         'attendances/create',
+        'boxes/create'
     ];
 }

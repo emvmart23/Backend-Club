@@ -8,6 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * aumenta el campo nombre y usuario y elimina los demas campos
      */
     public function up(): void
     {
@@ -15,9 +16,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->boolean('present')->default(false);
-            $table->boolean('late')->default(false);
-            $table->boolean('absent')->default(false);
             $table->date('date');
+            $table->date('date_box');
             $table->timestamps();
 
             $table->unique(['user_id', 'date']);
