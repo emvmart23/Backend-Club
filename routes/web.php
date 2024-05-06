@@ -61,8 +61,9 @@ Route::post('/roles/create', [RoleController::class, 'create']);
 Route::delete('/roles/delete/{id}', [RoleController::class, 'destroy']);
 Route::patch('/roles/update/{id}', [RoleController::class, 'update']);
 
-
+Route::get('/attendances', [AttendanceController::class, 'show']);
 Route::post('/attendances/create', [AttendanceController::class, 'create']);
+Route::patch('/attendances/update', [AttendanceController::class, 'update']);
 
 Route::get('/boxes', [BoxController::class, 'show']);
 Route::post('/boxes/create', [BoxController::class, 'create']);

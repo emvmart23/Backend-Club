@@ -10,10 +10,10 @@ class AttendanceController extends Controller
     public function create(Request $request)
     {
         $validatedData = $request->validate([
-            '*.user_id' => 'sometimes|integer',
-            '*.present' => 'sometimes|boolean',
-            '*.date' => 'sometimes|date',
-            '*.date_box' => 'sometimes|date',
+            '*.user_id' => 'required|integer',
+            '*.present' => 'required|boolean',
+            '*.date' => 'required|date',
+            '*.date_box' => 'required|date',
         ]);
 
         $attendances = collect($validatedData)->map(function ($data) {
@@ -22,4 +22,31 @@ class AttendanceController extends Controller
 
         return response()->json($attendances, 201);
     }
+
+    public function show()
+    {
+        $attendance = Attendance::all();
+
+        return response()->json([
+            "attendances" => $attendance
+        ]);
+    }
+
+    public function update(Request $request)
+{
+    $validatedData = $request->validate([
+        '*.user_id' => 'required|integer',
+        '*.present' => 'sometimes|boolean'
+    ]);
+
+    $updatedAttendances = collect($validatedData)->map(function ($data) {
+        $attendance = Attendance::where('user_id', $data['user_id'])->first();
+        if ($attendance) {
+            $attendance->update($data);
+            return $attendance;
+        }
+    })->filter();
+
+    return response()->json($updatedAttendances, 200);
+}
 }
