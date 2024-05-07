@@ -40,7 +40,7 @@ class AttendanceController extends Controller
     ]);
 
     $updatedAttendances = collect($validatedData)->map(function ($data) {
-        $attendance = Attendance::where('user_id', $data['user_id'])->first();
+        $attendance = Attendance::where('user_id', $data['user_id'])->latest('id')->first();
         if ($attendance) {
             $attendance->update($data);
             return $attendance;
