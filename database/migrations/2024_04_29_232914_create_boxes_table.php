@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('boxes', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('opening');
-            $table->dateTime('closing')->nullable();
+            $table->date('opening');
+            // user_opening
+            // user_closing
+            //add
+            $table->date('closing')->nullable();
             $table->decimal('initial_balance',9,2);
             $table->decimal('final_balance',9,2);
             $table->boolean('state')->default(true);

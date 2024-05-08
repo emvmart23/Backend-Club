@@ -29,7 +29,9 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 
 // user actions
-Route::get('/users ', function () { return UserResource::collection(User::all()); });
+Route::get('/users', function () {
+    return UserResource::collection(User::all());
+});
 Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::patch('/users/update/{id}', [UserController::class, 'update']);
 
@@ -67,3 +69,4 @@ Route::patch('/attendances/update', [AttendanceController::class, 'update']);
 
 Route::get('/boxes', [BoxController::class, 'show']);
 Route::post('/boxes/create', [BoxController::class, 'create']);
+Route::patch('/boxes/close', [BoxController::class, 'close']);

@@ -19,12 +19,13 @@ class BoxController extends Controller
 
     public function create(Request $request)
     {
-
         $data = $request->validate([
             "opening" => "required|date",
-            "closing" => "nullable|date",
-            "initial_balance" => "required|numeric",
-            "final_balance" => "required|numeric",
+            //add
+            // user por default
+            "closing" => "required|date",
+            "initial_balance" => "required|numeric|between:0,999999.99",
+            "final_balance" => "required|numeric|between:0,999999.99",
             "state" => "required|boolean",
         ]);
 
@@ -33,5 +34,11 @@ class BoxController extends Controller
         return response()->json([
             "box" => $box
         ]);
+    }
+
+    public function close(Request $request,$id){
+        $box = Box::find($id);
+        $box->state = false;
+        $box->save();
     }
 }

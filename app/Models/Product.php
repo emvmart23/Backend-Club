@@ -10,12 +10,13 @@ class Product extends Model
     use HasFactory;
 
     public function category(){
-        return $this->belongsTo("App\Category");
+        return $this->belongsTo(Category::class);
     }
 
     public function unitMeasure(){
-        return $this->belongsTo("App\UnitMeasure");
+        return $this->belongsTo(UnitMeasure::class);
     }
+    
     protected $fillable = [
         'name',
         'price',

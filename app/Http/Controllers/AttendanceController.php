@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\Box;
 
 class AttendanceController extends Controller
 {
@@ -13,10 +14,13 @@ class AttendanceController extends Controller
             '*.user_id' => 'required|integer',
             '*.present' => 'required|boolean',
             '*.date' => 'required|date',
-            '*.date_box' => 'required|date',
+            '*.box_date' => 'sometimes|date',
+            '*.box_id' => 'required|integer|exists:boxes,id',
         ]);
 
         $attendances = collect($validatedData)->map(function ($data) {
+            $box = Box::findOrFail($data['box_id']);
+            $data['box_date'] = $box->opening;
             return Attendance::create($data);
         });
 
@@ -25,7 +29,7 @@ class AttendanceController extends Controller
 
     public function show()
     {
-        $attendance = Attendance::all();
+        $attendance = Attendance::with('box')->get();
 
         return response()->json([
             "attendances" => $attendance
@@ -33,20 +37,20 @@ class AttendanceController extends Controller
     }
 
     public function update(Request $request)
-{
-    $validatedData = $request->validate([
-        '*.user_id' => 'required|integer',
-        '*.present' => 'sometimes|boolean'
-    ]);
+    {
+        $validatedData = $request->validate([
+            '*.user_id' => 'required|integer',
+            '*.present' => 'sometimes|boolean'
+        ]);
 
-    $updatedAttendances = collect($validatedData)->map(function ($data) {
-        $attendance = Attendance::where('user_id', $data['user_id'])->latest('id')->first();
-        if ($attendance) {
-            $attendance->update($data);
-            return $attendance;
-        }
-    })->filter();
+        $updatedAttendances = collect($validatedData)->map(function ($data) {
+            $attendance = Attendance::where('user_id', $data['user_id'])->latest('id')->first();
+            if ($attendance) {
+                $attendance->update($data);
+                return $attendance;
+            }
+        })->filter();
 
-    return response()->json($updatedAttendances, 200);
-}
+        return response()->json($updatedAttendances, 200);
+    }
 }

@@ -24,7 +24,6 @@ class ProductController extends Controller
         $product = Product::create($productData);
 
         return response()->json([
-            "Product created successfully",
             "product" => $product
         ]);
     }
@@ -34,8 +33,7 @@ class ProductController extends Controller
      */
     public function show()
     {
-        $product = Product::all();
-
+        $product = Product::with('category','unitMeasure')->get();
         return response()->json([
             "product" => $product
         ]);

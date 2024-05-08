@@ -12,7 +12,7 @@ class Category extends Model
     protected $primaryKey = 'category_id';
 
     public function products(){
-        return $this->hasMany("App\Product");
+        return $this->hasMany(Product::class);
     }
 
     protected $fillable = [
