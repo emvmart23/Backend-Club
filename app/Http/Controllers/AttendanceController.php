@@ -13,12 +13,18 @@ class AttendanceController extends Controller
         $validatedData = $request->validate([
             '*.user_id' => 'required|integer',
             '*.present' => 'required|boolean',
-            '*.date' => 'required|date',
+            '*.date' => 'sometimes|date',
             '*.box_date' => 'sometimes|date',
-            '*.box_id' => 'required|integer|exists:boxes,id',
+            '*.box_id' => 'sometimes|integer'
         ]);
 
-        $attendances = collect($validatedData)->map(function ($data) {
+        $latestBoxId = Box::max('id');
+
+        $attendances = collect($validatedData)->map(function ($data) use ($latestBoxId) {
+            if (!array_key_exists('box_id', $data) || $data['box_id'] === null) {
+                $data['box_id'] = $latestBoxId;
+            }    
+
             $box = Box::findOrFail($data['box_id']);
             $data['box_date'] = $box->opening;
             return Attendance::create($data);
@@ -44,7 +50,7 @@ class AttendanceController extends Controller
         ]);
 
         $updatedAttendances = collect($validatedData)->map(function ($data) {
-            $attendance = Attendance::where('user_id', $data['user_id'])->latest('id')->first();
+            $attendance = Attendance::where('user_id',$data['user_id'])->latest('box_date')->first();
             if ($attendance) {
                 $attendance->update($data);
                 return $attendance;

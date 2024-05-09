@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('boxes', function (Blueprint $table) {
             $table->id();
             $table->date('opening');
-            // user_opening
-            // user_closing
-            //add
             $table->date('closing')->nullable();
+            $table->string('user_opening');
+            $table->string('user_closing')->nullable();
             $table->decimal('initial_balance',9,2);
-            $table->decimal('final_balance',9,2);
+            $table->decimal('final_balance',9,2)->nullable();
             $table->boolean('state')->default(true);
             $table->timestamps();
         });

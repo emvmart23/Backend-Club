@@ -16,6 +16,8 @@ class Box extends Model
     protected $fillable = [
         "opening",
         "closing",
+        "user_opening",
+        "user_closing",
         "initial_balance",
         "final_balance",
         "state"

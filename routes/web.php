@@ -69,4 +69,5 @@ Route::patch('/attendances/update', [AttendanceController::class, 'update']);
 
 Route::get('/boxes', [BoxController::class, 'show']);
 Route::post('/boxes/create', [BoxController::class, 'create']);
-Route::patch('/boxes/close', [BoxController::class, 'close']);
+Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
+Route::patch('/boxes/update/{id}', [BoxController::class, 'update']);
