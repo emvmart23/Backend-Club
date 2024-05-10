@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Box;
+use Illuminate\Support\Facades\Auth;
 
 class BoxController extends Controller
 {
@@ -20,26 +21,15 @@ class BoxController extends Controller
     public function create(Request $request)
     {
         $data = $request->validate([
-            "opening" => "required|date",//default
-            "closing" => "sometimes|date",// null and default
-            "user_opening" => "required|string",//user default
-            "user_closing" => "sometimes|string",// user default
-            "initial_balance" => "required|numeric|between:0,999999.99", 
+            "opening" => "required|date",
+            "user_opening" => "required|string",
+            "user_closing" => "sometimes|string",
+            "initial_balance" => "required|numeric|between:0,999999.99",
             "final_balance" => "sometimes|numeric|between:0,999999.99",
             "state" => "required|boolean"
         ]);
 
         $box = Box::create($data);
-
-        return response()->json([
-            "box" => $box
-        ]);
-    }
-
-    public function close($id){
-        $box = Box::find($id);
-        $box->state = false;
-        $box->save();
 
         return response()->json([
             "box" => $box
@@ -65,5 +55,20 @@ class BoxController extends Controller
         return response()->json([
             "message" => "Box updated"
         ]);
-    } 
+    }
+
+    public function close($id){
+        $user= Auth::user()?->name;
+
+        $ldate = date('Y-m-d');
+        $box = Box::find($id);
+        $box-> closing = $ldate;
+        $box-> state = false;
+        $box-> user_closing = $user;
+        $box-> save();
+
+        return response()->json([
+            "box" => $box
+        ]);
+    }
 }
