@@ -29,9 +29,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 
 // user actions
-Route::get('/users', function () {
-    return UserResource::collection(User::all());
-});
+Route::get('/users', function () {return UserResource::collection(User::all());});
 Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 Route::patch('/users/update/{id}', [UserController::class, 'update']);
 
@@ -67,7 +65,10 @@ Route::get('/attendances', [AttendanceController::class, 'show']);
 Route::post('/attendances/create', [AttendanceController::class, 'create']);
 Route::patch('/attendances/update', [AttendanceController::class, 'update']);
 
-Route::get('/boxes', [BoxController::class, 'show']);
 Route::post('/boxes/create', [BoxController::class, 'create']);
-Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
 Route::patch('/boxes/update/{id}', [BoxController::class, 'update']);
+
+Route::middleware('auth:api') -> group(function() {
+    Route::get('/boxes', [BoxController::class, 'show']);
+    Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
+});

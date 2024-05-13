@@ -45,6 +45,9 @@ class AuthController extends Controller
             ], 401);
         }
 
+        $request->session()->regenerate();
+        auth()->login($user);
+
         $token = $user->createToken('my-token')->plainTextToken;
 
         return response()->json([

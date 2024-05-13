@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Box;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BoxController extends Controller
 {
@@ -12,9 +13,11 @@ class BoxController extends Controller
     public function show()
     {
         $boxes = Box::all();
+        $user = Auth::user(); 
 
         return response()->json([
-            "boxes" => $boxes
+            "boxes" => $boxes,
+            "user" => $user
         ]);
     }
 
@@ -58,13 +61,20 @@ class BoxController extends Controller
     }
 
     public function close($id){
-        $user= Auth::user()?->name;
+
+        $user = Auth::user();
+                  
+        if($user) {
+            $userName = $user->name;
+        }else{
+            return response()->json(['message'=>'user not authenticated']);
+        }
 
         $ldate = date('Y-m-d');
         $box = Box::find($id);
         $box-> closing = $ldate;
         $box-> state = false;
-        $box-> user_closing = $user;
+        $box-> user_closing = $userName;
         $box-> save();
 
         return response()->json([
