@@ -68,6 +68,7 @@ Route::patch('/attendances/update', [AttendanceController::class, 'update']);
 Route::post('/boxes/create', [BoxController::class, 'create']);
 Route::patch('/boxes/update/{id}', [BoxController::class, 'update']);
 
+
 Route::middleware('auth:api') -> group(function() {
     Route::get('/boxes', [BoxController::class, 'show']);
     Route::post('/boxes/close/{id}', [BoxController::class, 'close']);

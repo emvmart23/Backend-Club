@@ -12,12 +12,10 @@ class BoxController extends Controller
 
     public function show()
     {
-        $boxes = Box::all();
-        $user = Auth::user(); 
+        $boxes = Box::all(); 
 
         return response()->json([
-            "boxes" => $boxes,
-            "user" => $user
+            "boxes" => $boxes
         ]);
     }
 
@@ -43,7 +41,7 @@ class BoxController extends Controller
         
         $box = Box::find($id);
 
-        if(!$box ){
+        if(!$box){
             return response()->json([
                 "message" => "Box not found"
             ],404);
@@ -61,20 +59,12 @@ class BoxController extends Controller
     }
 
     public function close($id){
-
-        $user = Auth::user();
-                  
-        if($user) {
-            $userName = $user->name;
-        }else{
-            return response()->json(['message'=>'user not authenticated']);
-        }
-
+        
         $ldate = date('Y-m-d');
         $box = Box::find($id);
         $box-> closing = $ldate;
         $box-> state = false;
-        $box-> user_closing = $userName;
+        $box-> user_closing = "super";
         $box-> save();
 
         return response()->json([

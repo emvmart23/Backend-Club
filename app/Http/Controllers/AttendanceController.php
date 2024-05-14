@@ -35,11 +35,21 @@ class AttendanceController extends Controller
 
     public function show()
     {
-        $attendance = Attendance::with('box')->get();
-
-        return response()->json([
-            "attendances" => $attendance
-        ]);
+        $attendances = Attendance::with('user')->get()->map(function ($attendance) {
+            return [
+                'id' => $attendance->id,
+                'user_id' => $attendance->user_id,
+                'present' => $attendance->present,
+                'date' => $attendance->date,
+                'box_date' => $attendance->box_date,
+                'box_id' => $attendance->box_id,
+                'created_at' => $attendance->created_at,
+                'updated_at' => $attendance->updated_at,
+                'user' => $attendance->user->name
+            ];
+        });
+    
+        return response()->json(['attendances' => $attendances]);
     }
 
     public function update(Request $request)
