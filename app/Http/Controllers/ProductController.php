@@ -54,7 +54,7 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "name" => "sometimes|string",
-            "price" => "sometimes,|decimal:3",
+            "price" => "sometimes|decimal:2",
             "category_id" => "sometimes|integer",
             "unit_id" => "sometimes|integer",
             "has_alcohol" => "sometimes|boolean"
