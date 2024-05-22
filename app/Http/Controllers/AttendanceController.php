@@ -46,6 +46,7 @@ class AttendanceController extends Controller
                 'created_at' => $attendance->created_at,
                 'updated_at' => $attendance->updated_at,
                 'user' => $attendance->user->name,
+                'role_user' => $attendance->user->role_id,
                 'box_state' => $attendance->box->state
             ];
         });
