@@ -11,8 +11,9 @@ class UnitMeasure extends Model
 
     protected $primaryKey = 'unit_id';
 
-    public function products(){
-        return $this->hasMany(Product::class);
+    public function product()
+    {
+        return $this->hasOne(Product::class);
     }
 
     protected $fillable = [

@@ -33,10 +33,19 @@ class ProductController extends Controller
      */
     public function show()
     {
-        $product = Product::with('category','unitMeasure')->get();
-        return response()->json([
-            "product" => $product
-        ]);
+        $product = Product::with('category','unitMeasure')->get()->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'category_id' => $product->category_id,
+                'unit_id' => $product->unit_id,
+                'has_alcohol' => $product->has_alcohol,
+                'unit_name' => $product->unitMeasure->description,
+                'category_name' => $product->category->name,
+            ];
+        });
+        return response()->json(["product" => $product]);
     }
 
     /**
