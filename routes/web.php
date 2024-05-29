@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BoxController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -70,6 +71,8 @@ Route::patch('/boxes/update/{id}', [BoxController::class, 'update']);
 
 Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
 Route::get('/boxes', [BoxController::class, 'show']);
+
+Route::post('/orders/create', [OrderController::class, 'create']);
 
 Route::middleware('auth:api') -> group(function() {
 });
