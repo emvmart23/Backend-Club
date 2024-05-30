@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BoxController;
+use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
 use App\Http\Resources\UserResource;
@@ -73,6 +74,8 @@ Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
 Route::get('/boxes', [BoxController::class, 'show']);
 
 Route::post('/orders/create', [OrderController::class, 'create']);
+
+Route::post('/headers/create', [HeaderController::class, 'create']);
 
 Route::middleware('auth:api') -> group(function() {
 });

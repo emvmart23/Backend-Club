@@ -9,10 +9,17 @@ class Order extends Model
 {
     use HasFactory;
 
+    public function header()
+    {
+        return $this->belongsTo(Header::class);
+    }
+
     protected $fillable = [
+        'hostess',
         'name',
         'price',
         'count',
-        'total_price'
+        'total_price',
+        'header_id'
     ];
 }

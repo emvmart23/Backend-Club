@@ -12,11 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->id('order_id');
             $table->string('name');
+            $table->string('hostess');
             $table->decimal('price',9,2);
             $table->integer('count');
             $table->decimal('total_price',9,2);
+            $table->unsignedBigInteger('header_id');
+            $table->foreign('header_id')->references('id')->on('headers');
             $table->timestamps();
         });
     }
