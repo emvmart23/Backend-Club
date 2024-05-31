@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Box;
 use App\Models\Header;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class HeaderController extends Controller
@@ -25,9 +26,14 @@ class HeaderController extends Controller
     {
         $headers = Header::with('orders')->get()->map(function ($header) {
             
+            $order = Order::find($header->order_id);
+
             return [
                 'id' => $header->id,
-                'mozo' => $header->mozo
+                'mozo' => $header->mozo,
+                'total_price' => $order->total_price,
+                'hosstes'=> $order->hosstes,
+                'date_order' => $order->created_at
             ];
         });
         return response()->json(['attendances' => $headers]);
