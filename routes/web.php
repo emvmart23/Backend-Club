@@ -76,6 +76,7 @@ Route::get('/boxes', [BoxController::class, 'show']);
 Route::post('/orders/create', [OrderController::class, 'create']);
 
 Route::post('/headers/create', [HeaderController::class, 'create']);
+Route::get('/headers', [HeaderController::class, 'show']);
 
 Route::middleware('auth:api') -> group(function() {
 });
