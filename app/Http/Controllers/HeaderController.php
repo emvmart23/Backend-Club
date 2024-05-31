@@ -32,5 +32,5 @@ class HeaderController extends Controller
     //         ];
     //     });
     //     return response()->json(['attendances' => $headers]);
-    // }
+    //}
 }
