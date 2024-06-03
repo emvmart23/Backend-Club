@@ -9,9 +9,6 @@ use Illuminate\Routing\Controller;
 
 class OrderController extends Controller
 {
-    public function show() {
-        
-    }
 
     public function create(Request $request)
     {

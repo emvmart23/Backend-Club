@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('headers', function (Blueprint $table) {
             $table->id();
             $table->string('mozo');
+            $table->boolean('state')->default(true);
             $table->timestamps();
         });
     }

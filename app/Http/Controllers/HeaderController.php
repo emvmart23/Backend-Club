@@ -25,17 +25,33 @@ class HeaderController extends Controller
     public function show()
     {
         $headers = Header::with('orders')->get()->map(function ($header) {
-            
-            $order = Order::find($header->order_id);
-
             return [
                 'id' => $header->id,
                 'mozo' => $header->mozo,
-                'total_price' => $order->total_price,
-                'hosstes'=> $order->hosstes,
-                'date_order' => $order->created_at
+                'state' => $header->state,
+                'orders' => $header->orders->map(function ($order) {
+                    return [
+                        'name' => $order->name,
+                        'count' => $order->count,
+                        'total_price' => $order->total_price,
+                        'hostess' => $order->hostess,
+                        'date_order' => $order->created_at
+                    ];
+                }),
             ];
         });
-        return response()->json(['attendances' => $headers]);
+
+        return response()->json($headers);
+    }
+
+    public function attended($id)
+    {
+        $header = Header::find($id);
+        $header->state = false;
+        $header-> save();
+
+        return response()->json([
+            "header" => $header
+        ], 200);
     }
 }
