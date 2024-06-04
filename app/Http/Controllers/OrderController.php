@@ -13,7 +13,7 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $validatedData = $request->validate([
-            '*.hostess'=> 'required|string',
+            '*.hostess_id'=> 'required|integer',
             '*.name' => 'required|string',
             '*.price' => 'required|numeric|between:0,999999.99',
             '*.count' => 'required|integer',

@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id('order_id');
             $table->string('name');
-            $table->string('hostess');
+            $table->unsignedBigInteger('hostess_id');
             $table->decimal('price',9,2);
             $table->integer('count');
             $table->decimal('total_price',9,2);
             $table->unsignedBigInteger('header_id');
-            $table->foreign('header_id')->references('id')->on('headers');
+
+            $table->foreign('hostess_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
