@@ -14,8 +14,9 @@ class Order extends Model
         return $this->belongsTo(Header::class);
     }
 
-    public function user() {
-        return $this->hasMany(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'hostess_id', 'id');
     }
 
     protected $fillable = [
