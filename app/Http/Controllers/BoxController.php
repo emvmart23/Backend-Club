@@ -59,7 +59,6 @@ class BoxController extends Controller
     }
 
     public function close($id){
-        
         $ldate = date('Y-m-d');
         $box = Box::find($id);
         $box-> closing = $ldate;
