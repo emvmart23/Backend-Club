@@ -70,7 +70,6 @@ Route::patch('/attendances/update', [AttendanceController::class, 'update']);
 Route::post('/boxes/create', [BoxController::class, 'create']);
 Route::patch('/boxes/update/{id}', [BoxController::class, 'update']);
 
-Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
 Route::get('/boxes', [BoxController::class, 'show']);
 
 Route::post('/attended/{id}', [HeaderController::class, 'attended']);
@@ -79,6 +78,7 @@ Route::post('/orders/create', [OrderController::class, 'create']);
 Route::post('/headers/create', [HeaderController::class, 'create']);
 Route::get('/headers', [HeaderController::class, 'show']);
 
+Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
 
 Route::middleware('auth:api') -> group(function() {
 });

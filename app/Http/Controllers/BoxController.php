@@ -12,7 +12,7 @@ class BoxController extends Controller
 
     public function show()
     {
-        $boxes = Box::all(); 
+        $boxes = Box::all();
 
         return response()->json([
             "boxes" => $boxes
@@ -37,20 +37,21 @@ class BoxController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id) {
-        
+    public function update(Request $request, $id)
+    {
+
         $box = Box::find($id);
 
-        if(!$box){
+        if (!$box) {
             return response()->json([
                 "message" => "Box not found"
-            ],404);
+            ], 404);
         }
 
         $data = $request->validate([
             "initial_balance" => "sometimes|numeric|between:0,999999.99",
         ]);
-    
+
         $box->update($data);
 
         return response()->json([
@@ -58,13 +59,14 @@ class BoxController extends Controller
         ]);
     }
 
-    public function close($id){
+    public function close($id)
+    {
         $ldate = date('Y-m-d');
         $box = Box::find($id);
-        $box-> closing = $ldate;
-        $box-> state = false;
-        $box-> user_closing = "super";
-        $box-> save();
+        $box->closing = $ldate;
+        $box->state = false;
+        $box->user_closing = "super";
+        $box->save();
 
         return response()->json([
             "box" => $box

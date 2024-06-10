@@ -29,6 +29,7 @@ class HeaderController extends Controller
                 'id' => $header->id,
                 'mozo' => $header->mozo,
                 'state' => $header->state,
+                'state_doc' => $header->state_doc,
                 'created_at' => $header->created_at,
                 'orders' => $header->orders->map(function ($order) {
                     return [

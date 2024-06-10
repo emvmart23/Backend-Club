@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('mozo');
             $table->boolean('state')->default(true);
+            $table->boolean('state_doc')->default(true);
+            $table->string('note_sale')->default("-");
             $table->timestamps();
         });
     }
