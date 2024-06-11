@@ -63,6 +63,7 @@ class BoxController extends Controller
     {
         $ldate = date('Y-m-d');
         $box = Box::find($id);
+        
         $box->closing = $ldate;
         $box->state = false;
         $box->user_closing = "super";

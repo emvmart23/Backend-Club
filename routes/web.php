@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BoxController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RoleController;
@@ -79,6 +80,10 @@ Route::post('/headers/create', [HeaderController::class, 'create']);
 Route::get('/headers', [HeaderController::class, 'show']);
 
 Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
+
+
+Route::post('/details/create', [DetailController::class, 'create']);
+
 
 Route::middleware('auth:api') -> group(function() {
 });
