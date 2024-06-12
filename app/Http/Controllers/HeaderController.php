@@ -30,6 +30,7 @@ class HeaderController extends Controller
                 'mozo' => $header->mozo,
                 'state' => $header->state,
                 'state_doc' => $header->state_doc,
+                'note_sale' => $header->note_sale,
                 'created_at' => $header->created_at,
                 'orders' => $header->orders->map(function ($order) {
                     return [
@@ -43,7 +44,6 @@ class HeaderController extends Controller
                 }),
             ];
         });
-
         return response()->json($headers);
     }
 
