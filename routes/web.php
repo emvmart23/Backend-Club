@@ -85,7 +85,5 @@ Route::post('/boxes/close/{id}', [BoxController::class, 'close']);
 Route::post('/details/create', [DetailController::class, 'create']);
 Route::get('/details', [DetailController::class, 'show']);
 
-
-
 // Route::middleware('auth:api') -> group(function() {
 // });

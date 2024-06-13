@@ -23,7 +23,7 @@ class AttendanceController extends Controller
         $attendances = collect($validatedData)->map(function ($data) use ($latestBoxId) {
             if (!array_key_exists('box_id', $data) || $data['box_id'] === null) {
                 $data['box_id'] = $latestBoxId;
-            }    
+            }
 
             $box = Box::findOrFail($data['box_id']);
             $data['box_date'] = $box->opening;
@@ -61,7 +61,7 @@ class AttendanceController extends Controller
         ]);
 
         $updatedAttendances = collect($validatedData)->map(function ($data) {
-            $attendance = Attendance::where('user_id',$data['user_id'])->latest('box_date')->first();
+            $attendance = Attendance::where('user_id', $data['user_id'])->latest('box_date')->first();
             if ($attendance) {
                 $attendance->update($data);
                 return $attendance;

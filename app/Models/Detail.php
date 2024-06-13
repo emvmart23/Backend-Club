@@ -21,5 +21,6 @@ class Detail extends Model
     protected $fillable = [
         "client_id",
         "issue_date",
+        "total_price"
     ];
 }

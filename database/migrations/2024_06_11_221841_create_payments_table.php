@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("detail_id");
             $table->string("payment_method");
-            $table->decimal("total_price", 9,2);
             $table->decimal("mountain",9,2);
             $table->string("reference");
             $table->timestamps();

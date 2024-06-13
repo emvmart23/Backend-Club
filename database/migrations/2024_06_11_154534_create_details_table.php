@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("client_id");
             $table->date('issue_date');
+            $table->decimal("total_price", 9,2);
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('customers');
