@@ -51,7 +51,7 @@ class HeaderController extends Controller
     {
         $header = Header::find($id);
         $header->state = false;
-        $header-> save();
+        $header->save();
 
         return response()->json([
             "header" => $header

@@ -17,7 +17,7 @@ class OrderController extends Controller
             '*.name' => 'required|string',
             '*.price' => 'required|numeric|between:0,999999.99',
             '*.count' => 'required|integer',
-            '*.total_price' => "required|numeric|between:0,999999.99",
+            '*.total_price' => 'required|numeric|between:0,999999.99',
             '*.header_id' => 'sometimes|integer'
         ]);
 
