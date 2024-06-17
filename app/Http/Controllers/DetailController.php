@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Detail;
+use App\Models\Header;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Console;
 use Illuminate\Support\Facades\Log;
@@ -35,7 +36,7 @@ class DetailController extends Controller
         return response()->json($details);
     }
 
-    public function create(Request $request)
+    public function create(Request $request, $id)
     {
         $validateData = $request->validate([
             "client_id" => "required|integer",
@@ -69,6 +70,11 @@ class DetailController extends Controller
                 ];
             })->toArray()
         );
+
+        $header = Header::find($id);
+        $header -> state_doc = false;
+        $header -> note_sale = ``;
+        $header -> save();
 
         return response()->json(['message' => 'Orden guardada correctamente']);
     }
