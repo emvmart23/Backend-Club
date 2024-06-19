@@ -13,10 +13,16 @@ return new class extends Migration
     {
         Schema::create('headers', function (Blueprint $table) {
             $table->id();
-            $table->string('mozo');
+            $table->unsignedBigInteger('mozo_id');
             $table->boolean('state')->default(true);
             $table->boolean('state_doc')->default(true);
-            $table->string('note_sale')->default("-");
+            $table->unsignedBigInteger('note_sale')->nullable();
+            $table->unsignedBigInteger('note_id')->nullable();
+            
+            $table->foreign('note_sale')->references('id')->on('details');
+            $table->foreign('note_id')->references('id')->on('details');
+            $table->foreign('mozo_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

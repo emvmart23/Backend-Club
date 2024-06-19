@@ -72,32 +72,12 @@ class DetailController extends Controller
             })->toArray()
         );
 
-        function generateOrderNumber()
-        {
-            $prefix = 'NV1-';
-            $lastOrder = Header::latest('id')->first();
-            Log::info(["lastOrder", $lastOrder]);
-            $testing = (int) substr($lastOrder->note_sale, 4);
-            Log::info(["testing",$testing]);
-
-            if (!$lastOrder) {
-                $newOrderNumber = 1;
-            } else {
-                if (substr($lastOrder->note_sale, 0, 3) === 'NV1') {
-                    $lastOrderNumber = (int) substr($lastOrder->note_sale, 4);
-                    $newOrderNumber = $lastOrderNumber + 1;
-                } else {
-                    $newOrderNumber = 1;
-                }
-            }
-
-            $paddedNumber = str_pad($newOrderNumber, 2, '0', STR_PAD_LEFT);
-            return $prefix . $paddedNumber;
-        }
-
         $header = Header::find($id);
+        $detail = Detail::find($id);
+        
         $header->state_doc = false;
-        $header->note_sale = generateOrderNumber();
+        // insertar id de detalle
+        $header->note_sale = "";
         $header->save();
 
         return response()->json(['message' => 'Orden guardada correctamente']);

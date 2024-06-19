@@ -9,13 +9,20 @@ class Header extends Model
 {
     use HasFactory;
 
-
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
 
+    public function detail(){
+        return $this->hasOne(Detail::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class, 'id');
+    }
+
     protected $fillable = [
-        'mozo'
+        'mozo_id'
     ];
 }

@@ -18,6 +18,10 @@ class Detail extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function header(){
+        return $this->belongsTo(Header::class);
+    }
+
     protected $fillable = [
         "client_id",
         "issue_date",

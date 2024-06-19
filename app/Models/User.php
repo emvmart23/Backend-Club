@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function header()
+    {
+        return $this->hasMany(Header::class);
+    }
 }

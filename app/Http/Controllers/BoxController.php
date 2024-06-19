@@ -61,12 +61,13 @@ class BoxController extends Controller
 
     public function close($id)
     {
+        $user = Auth::user();
         $ldate = date('Y-m-d');
         $box = Box::find($id);
-        
+
         $box->closing = $ldate;
         $box->state = false;
-        $box->user_closing = "super";
+        $box->user_closing = $user->user;
         $box->save();
 
         return response()->json([

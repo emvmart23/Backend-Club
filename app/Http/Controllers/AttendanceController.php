@@ -5,11 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Box;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
     public function create(Request $request)
     {
+        $latestBoxId = Box::max('id');
+        $box = Box::find($latestBoxId);
+        $attendance = Attendance::where('box_id', $latestBoxId)->first();
+
+        $isAttendanceIsExist = false;
+        
+        if ($attendance !== null && isset($attendance->box_id)) {
+            $isAttendanceIsExist = ($attendance->box_id === $latestBoxId);
+        }
+
+        if ($isAttendanceIsExist) {
+            return response()->json(["message" => "The box has to be closed"], 400);
+        }
+
         $validatedData = $request->validate([
             '*.user_id' => 'required|integer',
             '*.present' => 'required|boolean',
@@ -18,7 +33,7 @@ class AttendanceController extends Controller
             '*.box_id' => 'sometimes|integer'
         ]);
 
-        $latestBoxId = Box::max('id');
+
 
         $attendances = collect($validatedData)->map(function ($data) use ($latestBoxId) {
             if (!array_key_exists('box_id', $data) || $data['box_id'] === null) {

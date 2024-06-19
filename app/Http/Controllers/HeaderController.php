@@ -12,7 +12,7 @@ class HeaderController extends Controller
     public function create(Request $request)
     {
         $data = $request->validate([
-            "mozo" => "required|string",
+            "mozo_id" => "required|integer"
         ]);
 
         $header = Header::create($data);
@@ -24,10 +24,11 @@ class HeaderController extends Controller
 
     public function show()
     {
-        $headers = Header::with('orders.user')->get()->map(function ($header) {
+        $headers = Header::with('user','orders.user')->get()->map(function ($header) {
             return [
                 'id' => $header->id,
-                'mozo' => $header->mozo,
+                'mozo_id' => $header->mozo_id,
+                'mozo' => $header->user->name,
                 'state' => $header->state,
                 'state_doc' => $header->state_doc,
                 'note_sale' => $header->note_sale,
