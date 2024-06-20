@@ -32,14 +32,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $fields = $request->validate([
+        $data = $request->validate([
             "user" => "required",
             "password" => "required",
         ]);
 
-        $user = User::where("user", $fields["user"])->first();
+        $user = User::where("user", $data["user"])->first();
 
-        if (!$user || !Hash::check($fields["password"], $user->password)) {
+        if (!$user || !Hash::check($data["password"], $user->password)) {
             return response([
                 "message" => "Credenciales Incorrectas"
             ], 401);

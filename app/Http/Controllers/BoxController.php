@@ -24,7 +24,6 @@ class BoxController extends Controller
         $data = $request->validate([
             "opening" => "required|date",
             "user_opening" => "required|string",
-            "user_closing" => "sometimes|string",
             "initial_balance" => "required|numeric|between:0,999999.99",
             "final_balance" => "sometimes|numeric|between:0,999999.99",
             "state" => "required|boolean"

@@ -90,9 +90,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //headers actions
     Route::controller(HeaderController::class)->group(function () {
-        Route::post('/headers/create', 'create');
         Route::get('/headers', 'show');
+        Route::post('/headers/create', 'create');
         Route::post('/attended/{id}', 'attended');
+        Route::post('/anulated/{id}', 'anulated');
     });
 
     // details actions

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Box;
 use App\Models\Header;
-use App\Models\Order;
 use Illuminate\Http\Request;
 
 class HeaderController extends Controller
@@ -24,7 +22,7 @@ class HeaderController extends Controller
 
     public function show()
     {
-        $headers = Header::with('user','orders.user')->get()->map(function ($header) {
+        $headers = Header::with('user', 'orders.user')->get()->map(function ($header) {
             return [
                 'id' => $header->id,
                 'mozo_id' => $header->mozo_id,
@@ -32,6 +30,7 @@ class HeaderController extends Controller
                 'state' => $header->state,
                 'state_doc' => $header->state_doc,
                 'note_sale' => $header->note_sale,
+                'note_id' => $header->note_id,
                 'created_at' => $header->created_at,
                 'orders' => $header->orders->map(function ($order) {
                     return [
@@ -56,6 +55,20 @@ class HeaderController extends Controller
 
         return response()->json([
             "header" => $header
+        ], 200);
+    }
+
+    public function anulated($id)
+    {
+        $header = Header::find($id);
+
+        $header->note_sale = null;
+        $header->note_id = null;
+        $header->state_doc = true;
+        $header->save();
+
+        return response()->json([
+            "header without note" => $header
         ], 200);
     }
 }

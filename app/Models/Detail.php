@@ -19,7 +19,7 @@ class Detail extends Model
     }
 
     public function header(){
-        return $this->belongsTo(Header::class);
+        return $this->belongsTo(Header::class, 'id');
     }
 
     protected $fillable = [

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Detail;
 use App\Models\Header;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Console;
-use Illuminate\Support\Facades\Log;
 
 class DetailController extends Controller
 {
@@ -73,11 +71,11 @@ class DetailController extends Controller
         );
 
         $header = Header::find($id);
-        $detail = Detail::find($id);
-        
+        $detail = Detail::max('id');
+
         $header->state_doc = false;
-        // insertar id de detalle
-        $header->note_sale = "";
+        $header->note_id = $detail;
+        $header->note_sale = $detail;
         $header->save();
 
         return response()->json(['message' => 'Orden guardada correctamente']);
