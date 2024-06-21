@@ -7,12 +7,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HeaderController;
+use App\Http\Controllers\MethodPaymentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\UserResource;
+use App\Models\MethodPayment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -106,6 +108,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::patch('/users/update/{id}', 'update');
+    });
+
+    // payments actions
+    Route::controller(MethodPaymentController::class)->group(function () {
+        Route::get('/payments', 'show');
+        Route::post('/payments/create', 'create');
+        Route::patch('/payments/update/{id}', 'update');
+        Route::delete('/payments/delete/{id}, destroy');
     });
 
     // orders acctions

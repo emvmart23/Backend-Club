@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $product = Category::create($productData);
 
         return response()->json([
-            "Category created successfully"
+            "product" => $product
         ]);
     }
 
