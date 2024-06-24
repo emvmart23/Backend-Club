@@ -33,5 +33,30 @@ class MethodPaymentController extends Controller
                 "message" => "Method payment not found"
             ], 404);
         }
+
+        $data = $request->validate([
+            "name" => "sometimes|string"
+        ]);
+
+        $methodPayment->update($data);
+
+        return response()->json(["method" => $methodPayment], 200);
+    }
+
+    public function destroy($id)
+    {
+        $methodPayment = MethodPayment::find($id);
+
+        if (!$methodPayment) {
+            return response()->json([
+                "message" => "Method payment not found"
+            ], 404);
+        }
+
+        $methodPayment->delete();
+
+        return response()->json([
+            "message" => "Method payment deleted"
+        ], 200);
     }
 }

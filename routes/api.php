@@ -115,7 +115,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/payments', 'show');
         Route::post('/payments/create', 'create');
         Route::patch('/payments/update/{id}', 'update');
-        Route::delete('/payments/delete/{id}, destroy');
+        Route::delete('/payments/delete/{id}', 'destroy');
     });
 
     // orders acctions
