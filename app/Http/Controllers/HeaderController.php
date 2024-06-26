@@ -36,6 +36,7 @@ class HeaderController extends Controller
                     return [
                         'name' => $order->name,
                         'count' => $order->count,
+                        'price' => $order->price,
                         'total_price' => $order->total_price,
                         'hostess' => $order->user->name,
                         'hostess_id' => $order->hostess_id,
