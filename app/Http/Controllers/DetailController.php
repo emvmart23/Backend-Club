@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Box;
 use App\Models\Detail;
 use App\Models\Header;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DetailController extends Controller
 {
@@ -44,7 +46,9 @@ class DetailController extends Controller
             "payment" => "required|array",
             "payment.*.payment_method" => "required|string",
             "payment.*.reference" => "required|string",
-            "payment.*.mountain" => "required|numeric|between:0,999999.99"
+            "payment.*.mountain" => "required|numeric|between:0,999999.99",
+            "box_date" => "sometimes|string",
+            "current_user" => "sometimes|integer"
         ]);
 
         if (!$validateData) {
@@ -53,10 +57,19 @@ class DetailController extends Controller
             ], 404);
         }
 
+        $user = Auth::user();
+        $latestBox = Box::latest()->first();
+
+        if (!$latestBox) {
+            return response()->json(["error" => "No hay cajas disponibles"], 404);
+        }
+
         $detail = Detail::create([
             "client_id" => $validateData["client_id"],
             "issue_date" => $validateData["issue_date"],
-            "total_price" => $validateData["total_price"]
+            "total_price" => $validateData["total_price"],
+            "box_date" => $latestBox->opening,
+            "current_user" => $user->id
         ]);
 
         $detail->payments()->createMany(

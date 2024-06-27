@@ -19,8 +19,11 @@ return new class extends Migration
             $table->integer('count');
             $table->decimal('total_price',9,2);
             $table->unsignedBigInteger('header_id');
+            $table->string('box_date')->nullable();
+            $table->unsignedBigInteger('current_user')->nullable();
 
             $table->foreign('hostess_id')->references('id')->on('users');
+            $table->foreign('current_user')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -23,6 +23,8 @@ class Header extends Model
     }
 
     protected $fillable = [
-        'mozo_id'
+        'mozo_id',
+        'current_user',
+        'box_date'
     ];
 }

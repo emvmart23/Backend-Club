@@ -25,6 +25,8 @@ class Order extends Model
         'price',
         'count',
         'total_price',
-        'header_id'
+        'header_id',
+        "current_user",
+        "box_date"
     ];
 }

@@ -95,7 +95,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/headers', 'show');
         Route::post('/headers/create', 'create');
         Route::post('/attended/{id}', 'attended');
-        Route::post('/anulated/{id}', 'anulated');
+        Route::post('/note/anulated/{id}', 'anulated');
+        Route::post('/header/anulated/{id}', 'destroy');
     });
 
     // details actions
@@ -119,7 +120,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // orders acctions
-    Route::post('/orders/create', [OrderController::class, 'create']);
+    Route::controller(OrderController::class)->group(function(){
+        Route::post('/orders/create', 'create');
+    });
 
     //actions authentication
     Route::post('/auth/register', [AuthController::class, 'register']);

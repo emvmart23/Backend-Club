@@ -22,9 +22,15 @@ class Detail extends Model
         return $this->belongsTo(Header::class, 'id');
     }
 
+    public function user(){
+        return $this->belongsTo(User::class, 'current_user'); 
+    }
+
     protected $fillable = [
         "client_id",
         "issue_date",
-        "total_price"
+        "total_price",
+        "current_user",
+        "box_date"
     ];
 }
