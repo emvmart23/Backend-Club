@@ -109,6 +109,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::delete('/users/delete/{id}', [UserController::class, 'destroy'])->name('users.destroy');
         Route::patch('/users/update/{id}', 'update');
+        Route::get('/users', 'show');
     });
 
     // payments actions
@@ -126,11 +127,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //actions authentication
     Route::post('/auth/register', [AuthController::class, 'register']);
-
-    // user actions
-    Route::get('/users', function () {
-        return UserResource::collection(User::all());
-    });
 });
 
 // user authentication

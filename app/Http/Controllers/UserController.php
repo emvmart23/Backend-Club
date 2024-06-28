@@ -8,12 +8,31 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    public function destroy($id){
+    public function show()
+    {
+        $user = User::with('role')->get()->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'user' => $user->user,
+                'name' => $user->name,
+                'role_id' => $user->role_id,
+                'role' => $user->role->role_name,
+                'salary' => $user->salary,
+                'profit_margin' => $user->profit_margin,
+                'is_active' => $user->is_active,
+                'created_at' => $user->created_at
+            ];
+        });
+        return response()->json(["user" => $user]);
+    }
+
+    public function destroy($id)
+    {
         $user = User::find($id);
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 "message" => "User not found"
-            ],404);
+            ], 404);
         }
 
         $user->delete();
@@ -23,13 +42,14 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $user = User::find($id);
-        
-        if(!$user){
+
+        if (!$user) {
             return response()->json([
                 "message" => "User not found"
-            ],404);
+            ], 404);
         }
 
         $data = $request->validate([
@@ -40,7 +60,7 @@ class UserController extends Controller
             "role_id" => "sometimes|integer",
             "is_active" => "sometimes|boolean",
         ]);
-        
+
         $user->update($data);
 
         return response()->json([
