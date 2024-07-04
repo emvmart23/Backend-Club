@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Box;
+use DateTime;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
     public function create(Request $request)
     {
         $latestBoxId = Box::max('id');
+        //$box = Box::find($latestBoxId);
         $attendance = Attendance::where('box_id', $latestBoxId)->first();
 
         $isAttendanceIsExist = false;
-        
+
         if ($attendance !== null && isset($attendance->box_id)) {
             $isAttendanceIsExist = ($attendance->box_id === $latestBoxId);
         }

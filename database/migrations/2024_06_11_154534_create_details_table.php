@@ -17,11 +17,13 @@ return new class extends Migration
             $table->date('issue_date');
             $table->decimal("total_price", 9,2);
             $table->string('box_date')->nullable();
+            $table->unsignedBigInteger('hostess_id');
             $table->unsignedBigInteger('current_user')->nullable();
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('customers');
             $table->foreign('current_user')->references('id')->on('users');
+            $table->foreign('hostess_id')->references('id')->on('users');
         });
     }
 

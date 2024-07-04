@@ -23,7 +23,7 @@ class Detail extends Model
     }
 
     public function user(){
-        return $this->belongsTo(User::class, 'current_user'); 
+        return $this->belongsTo(User::class,'hostess_id');
     }
 
     protected $fillable = [
@@ -31,6 +31,7 @@ class Detail extends Model
         "issue_date",
         "total_price",
         "current_user",
-        "box_date"
+        "box_date",
+        "hostess_id"
     ];
 }

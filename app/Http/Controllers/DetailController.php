@@ -12,12 +12,15 @@ class DetailController extends Controller
 {
     public function show()
     {
-        $details = Detail::with('payments')->get()->map(function ($details) {
+        $details = Detail::with('payments', 'user')->get()->map(function ($details) {
             return [
                 "id" => $details->id,
                 "client_id" => $details->client_id,
                 "issue_date" => $details->issue_date,
                 "total_price" => $details->total_price,
+                "hostess_id" => $details->hostess_id,
+                "hostess" => $details->user->user,
+                "hostess_role" => $details->user->role_id,
                 "payments" => $details->payments->map(function ($payment) {
                     return [
                         "id" => $payment->id,
@@ -33,7 +36,7 @@ class DetailController extends Controller
                 "updated_at" => $details->updated_at,
             ];
         });
-        return response()->json($details);
+        return response()->json(["details" => $details]);
     }
 
 
@@ -43,6 +46,7 @@ class DetailController extends Controller
             "client_id" => "required|integer",
             "issue_date" => "required|date",
             "total_price" => "required|numeric|between:0,999999.99",
+            "hostess_id" => "required|integer",
             "payment" => "required|array",
             "payment.*.payment_method" => "required|string",
             "payment.*.reference" => "required|string",
@@ -65,6 +69,7 @@ class DetailController extends Controller
         }
 
         $detail = Detail::create([
+            "hostess_id" => $validateData["hostess_id"],
             "client_id" => $validateData["client_id"],
             "issue_date" => $validateData["issue_date"],
             "total_price" => $validateData["total_price"],
@@ -87,7 +92,6 @@ class DetailController extends Controller
         $detail = Detail::max('id');
 
         $header->state_doc = false;
-        $header->note_id = $detail;
         $header->note_sale = $detail;
         $header->save();
 

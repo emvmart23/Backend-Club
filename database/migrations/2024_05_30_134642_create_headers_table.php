@@ -17,12 +17,10 @@ return new class extends Migration
             $table->boolean('state')->default(true);
             $table->boolean('state_doc')->default(true)->nullable();
             $table->unsignedBigInteger('note_sale')->nullable();
-            $table->unsignedBigInteger('note_id')->nullable();
             $table->string('box_date')->nullable();
             $table->unsignedBigInteger('current_user')->nullable();
 
             $table->foreign('note_sale')->references('id')->on('details');
-            $table->foreign('note_id')->references('id')->on('details');
             $table->foreign('mozo_id')->references('id')->on('users');
             $table->foreign('current_user')->references('id')->on('users');
 

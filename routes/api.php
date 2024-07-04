@@ -123,6 +123,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // orders acctions
     Route::controller(OrderController::class)->group(function(){
         Route::post('/orders/create', 'create');
+        Route::get('/orders', 'show');
     });
 
     //actions authentication
