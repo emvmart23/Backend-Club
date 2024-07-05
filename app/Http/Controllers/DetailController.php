@@ -21,6 +21,7 @@ class DetailController extends Controller
                 "hostess_id" => $details->hostess_id,
                 "hostess" => $details->user->user,
                 "hostess_role" => $details->user->role_id,
+                "box_date" => $details->box_date,
                 "payments" => $details->payments->map(function ($payment) {
                     return [
                         "id" => $payment->id,
@@ -38,7 +39,6 @@ class DetailController extends Controller
         });
         return response()->json(["details" => $details]);
     }
-
 
     public function create(Request $request, $id)
     {

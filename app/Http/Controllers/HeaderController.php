@@ -82,7 +82,6 @@ class HeaderController extends Controller
         $header = Header::find($id);
 
         $header->note_sale = null;
-        $header->note_id = null;
         $header->state_doc = true;
         $header->save();
 
