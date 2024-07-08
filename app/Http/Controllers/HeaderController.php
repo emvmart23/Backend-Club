@@ -46,7 +46,6 @@ class HeaderController extends Controller
                 'state' => $header->state,
                 'state_doc' => $header->state_doc,
                 'note_sale' => $header->note_sale,
-                'note_id' => $header->note_id,
                 'created_at' => $header->created_at,
                 'current_user' => $header->current_user,
                 'box_date' => $header->box_date,
@@ -63,7 +62,7 @@ class HeaderController extends Controller
                 }),
             ];
         });
-        return response()->json($headers);
+        return response()->json(["header" => $headers]);
     }
 
     public function attended($id)
