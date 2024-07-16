@@ -15,7 +15,6 @@ class DetailController extends Controller
         $details = Detail::with('payments', 'user')->get()->map(function ($details) {
             return [
                 "id" => $details->id,
-                "client_id" => $details->client_id,
                 "issue_date" => $details->issue_date,
                 "total_price" => $details->total_price,
                 "hostess_id" => $details->hostess_id,

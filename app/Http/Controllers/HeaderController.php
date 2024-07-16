@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Box;
+use App\Models\Detail;
 use App\Models\Header;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,7 @@ class HeaderController extends Controller
     }
 
     public function show()
-    {
+    {   
         $headers = Header::with('user', 'orders.user')->get()->map(function ($header) {
             return [
                 'id' => $header->id,
