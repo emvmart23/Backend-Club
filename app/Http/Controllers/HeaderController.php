@@ -7,7 +7,6 @@ use App\Models\Detail;
 use App\Models\Header;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class HeaderController extends Controller
 {

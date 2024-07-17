@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Box;
 use App\Models\Detail;
 use App\Models\Header;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\DetailsHelper;
 
 class DetailController extends Controller
 {
@@ -21,6 +24,7 @@ class DetailController extends Controller
                 "hostess" => $details->user->user,
                 "hostess_role" => $details->user->role_id,
                 "box_date" => $details->box_date,
+                "current_user" => $details->current_user,
                 "payments" => $details->payments->map(function ($payment) {
                     return [
                         "id" => $payment->id,
