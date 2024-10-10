@@ -38,7 +38,7 @@ class HeaderController extends Controller
 
     public function show()
     {   
-        $headers = Header::with('user', 'orders.user')->get()->map(function ($header) {
+        $headers = Header::with('user', 'orders.user','orders.product')->get()->map(function ($header) {
             return [
                 'id' => $header->id,
                 'mozo_id' => $header->mozo_id,
@@ -51,7 +51,7 @@ class HeaderController extends Controller
                 'box_date' => $header->box_date,
                 'orders' => $header->orders->map(function ($order) {
                     return [
-                        'name' => $order->name,
+                        'name' => $order->product->name,
                         'count' => $order->count,
                         'price' => $order->price,
                         'total_price' => $order->total_price,

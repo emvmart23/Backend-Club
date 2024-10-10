@@ -9,6 +9,7 @@ use App\Http\Controllers\DetailController;
 use App\Http\Controllers\HeaderController;
 use App\Http\Controllers\MethodPaymentController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OtherExpensesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitMeasureController;
@@ -124,6 +125,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(OrderController::class)->group(function(){
         Route::post('/orders/create', 'create');
         Route::get('/orders', 'show');
+    });
+
+    Route::controller(OtherExpensesController::class)->group(function(){
+        Route::get('/other', 'show');
+        Route::post('/other/create', 'create');
+        Route::patch('/other/update/{id}', 'update');
+        Route::delete('/other/delete/{id}', 'destroy');
     });
 
     //actions authentication

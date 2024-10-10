@@ -21,7 +21,7 @@ class MethodPaymentController extends Controller
     public function show()
     {
         $data = MethodPayment::all();
-        return response()->json(["data" => $data], 200);
+        return response()->json(["method" => $data], 200);
     }
 
     public function update(Request $request, $id)

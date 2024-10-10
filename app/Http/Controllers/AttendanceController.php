@@ -13,7 +13,7 @@ class AttendanceController extends Controller
     public function create(Request $request)
     {
         $latestBoxId = Box::max('id');
-        //$box = Box::find($latestBoxId);
+
         $attendance = Attendance::where('box_id', $latestBoxId)->first();
 
         $isAttendanceIsExist = false;

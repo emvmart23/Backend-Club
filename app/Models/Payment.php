@@ -14,5 +14,5 @@ class Payment extends Model
         return $this->belongsTo(Detail::class);
     }
 
-    protected $fillable = ["detail_id", "payment_method", "mountain", "reference"];
+    protected $fillable = ["detail_id", "payment_id", "mountain", "reference"];
 }

@@ -23,7 +23,7 @@ class Detail extends Model
     }
 
     public function user(){
-        return $this->belongsTo(User::class,'hostess_id');
+        return $this->belongsTo(User::class,'current_user');
     }
 
     protected $fillable = [

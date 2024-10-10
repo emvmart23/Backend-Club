@@ -23,7 +23,8 @@ return [
     | Here you may configure the connection information for each server that
     | is used by your application. A default configuration has been added
     | for each back-end shipped with Laravel. You are free to add more.
-    |
+    |patrones y prácticas de ingeniería de software como Clean Code, Clean Architecture, TDD, BDD, etc. 
+
     | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", "null"
     |
     */
