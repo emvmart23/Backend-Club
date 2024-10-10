@@ -19,9 +19,14 @@ class Order extends Model
         return $this->belongsTo(User::class, 'hostess_id', 'id');
     }
 
+    public  function  product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     protected $fillable = [
         'hostess_id',
-        'name',
+        'product_id',
         'price',
         'count',
         'total_price',

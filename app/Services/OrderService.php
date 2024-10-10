@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
 use App\Models\Box;
 use App\Models\Header;
@@ -8,46 +8,11 @@ use App\Models\MethodPayment;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
-class OrderController extends Controller
+class OrderService extends Controller
 {
-
-    public function create(Request $request)
-    {
-        $validatedData = $request->validate([
-            '*.hostess_id' => 'required|integer',
-            '*.product_id' => 'required|integer',
-            '*.price' => 'required|numeric|between:0,999999.99',
-            '*.count' => 'required|integer',
-            '*.total_price' => 'required|numeric|between:0,999999.99',
-            '*.order_id' => 'sometimes|integer',
-            "*.box_date" => "sometimes|string",
-            "*.current_user" => "sometimes|integer"
-        ]);
-
-        $latestorderId = Header::max('id');
-        $user = Auth::user();
-        $latestBox = Box::latest()->first();
-
-        if (!$latestBox) {
-            return response()->json(["error" => "Box not found"], 404);
-        }
-
-        $orders = collect($validatedData)->map(function ($data) use ($latestorderId, $user, $latestBox) {
-            if (!array_key_exists('header_id', $data) || $data['header_id'] === null) {
-                $data['header_id'] = $latestorderId;
-                $data['box_date'] = $latestBox->opening;
-                $data['current_user'] = $user->id;
-            }
-            return Order::create($data);
-        });
-
-        return response()->json($orders, 200);
-    }
-
     public function removeTildes($string)
     {
         $unwanted_array = array(
@@ -119,16 +84,18 @@ class OrderController extends Controller
         return strtr($string, $unwanted_array);
     }
 
-    public function show()
+    public function getOrdersData()
     {
         $methodPayments = MethodPayment::all();
         $methodId = $methodPayments->pluck('id')->toArray();
+
+        Log::info('Method IDs:', $methodId);
 
         $latestBoxId = Box::max('id');
         $lastBox = Box::where('id', $latestBoxId)->first();
         $boxDate = $lastBox->opening;
 
-        $orders = Order::with('header', 'product')->first()
+        $orders = Order::with('header', 'product')
             ->whereHas('header', function ($query) use ($boxDate) {
                 $query->where('box_date', $boxDate);
             })
@@ -200,19 +167,10 @@ class OrderController extends Controller
                 ->toArray();
         };
 
-        $alcoholOrders = $processOrders($orders->where('order.has_alcohol', 1)->groupBy('order.detail_id')->map(function ($group) {
-            assert($group instanceof \Illuminate\Support\Collection);
-            return $group->first();
-        })->values());
-    
-        $nonAlcoholOrders = $processOrders($orders->where('order.has_alcohol', 0)->groupBy('order.detail_id')->map(function ($group) {
-            assert($group instanceof \Illuminate\Support\Collection);
-            return $group->first();
-        })->values());
+        $total = $orders->reduce(function ($carry, $order) {
+            return $carry + array_sum($order['payment_summary']);
+        }, 0);
 
-        return response()->json([
-            'alcoholOrders' => $alcoholOrders,
-            'nonAlcoholOrders' => $nonAlcoholOrders
-        ]);
+        return response()->json($total);
     }
 }

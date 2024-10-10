@@ -24,6 +24,7 @@ class Header extends Model
 
     protected $fillable = [
         'mozo_id',
+        'state_doc',
         'current_user',
         'box_date'
     ];

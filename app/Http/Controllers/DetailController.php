@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
 use App\Models\Box;
 use App\Models\Detail;
 use App\Models\Header;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Helpers\DetailsHelper;
+
 
 class DetailController extends Controller
 {
@@ -21,15 +19,15 @@ class DetailController extends Controller
                 "issue_date" => $details->issue_date,
                 "total_price" => $details->total_price,
                 "hostess_id" => $details->hostess_id,
-                "hostess" => $details->user->user,
                 "hostess_role" => $details->user->role_id,
                 "box_date" => $details->box_date,
                 "current_user" => $details->current_user,
+                "user_name" => $details->user->user,
                 "payments" => $details->payments->map(function ($payment) {
                     return [
                         "id" => $payment->id,
                         "detail_id" => $payment->detail_id,
-                        "payment_method" => $payment->payment_method,
+                        "payment_id" => $payment->payment_id,
                         "mountain" => $payment->mountain,
                         "reference" => $payment->reference,
                         "created_at" => $payment->created_at,
@@ -51,7 +49,7 @@ class DetailController extends Controller
             "total_price" => "required|numeric|between:0,999999.99",
             "hostess_id" => "required|integer",
             "payment" => "required|array",
-            "payment.*.payment_method" => "required|string",
+            "payment.*.payment_id" => "required|integer",
             "payment.*.reference" => "required|string",
             "payment.*.mountain" => "required|numeric|between:0,999999.99",
             "box_date" => "sometimes|string",
@@ -84,7 +82,7 @@ class DetailController extends Controller
             collect($validateData['payment'])->map(function ($paymentData) use ($detail) {
                 return [
                     'detail_id' => $detail->id,
-                    'payment_method' => $paymentData['payment_method'],
+                    'payment_id' => $paymentData['payment_id'],
                     'mountain' => $paymentData['mountain'],
                     'reference' => $paymentData['reference'],
                 ];

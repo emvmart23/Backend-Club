@@ -19,6 +19,11 @@ class Product extends Model
         return $this->belongsTo(UnitMeasure::class, 'unit_id');
     }
 
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     protected $fillable = [
         'name',
         'price',

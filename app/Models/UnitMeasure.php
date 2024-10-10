@@ -16,6 +16,11 @@ class UnitMeasure extends Model
         return $this->hasOne(Product::class);
     }
 
+    public function otherExpense()
+    {
+        return $this->hasMany(OtherExpense::class);
+    }
+
     protected $fillable = [
         'abbreviation',
         'description'
