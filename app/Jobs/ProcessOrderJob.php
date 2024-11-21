@@ -47,7 +47,7 @@ class ProcessOrderJob implements ShouldQueue
                     "box_date" => $latestBox->opening
                 ]);
 
-
+                Log::info(["ultima orden", $latestBox]);
                 $orders = collect($this->orderData)->map(function ($data) use ($latestOrder, $latestBox) {
                     $data['header_id'] = $latestOrder->id;
                     $data['box_date'] = $latestBox->opening;

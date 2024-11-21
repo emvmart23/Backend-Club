@@ -12,6 +12,7 @@ use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -34,9 +35,9 @@ class OrderController extends Controller
             "*.box_date" => 'sometimes|string',
             "*.current_user" => 'sometimes|integer'
         ]);
-
+        Log::info(["order validate",$validatedData]);
         $user = Auth::user();
-
+        
         ProcessOrderJob::dispatch($validatedData, $user->id);
 
         return response()->json(['message' => 'received order'], 200);

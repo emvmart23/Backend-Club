@@ -13,9 +13,9 @@ class HeaderController extends Controller
     public function create(Request $request)
     {
         $data = $request->validate([
-            "mozo_id" => "required|integer",
-            "current_user" => "required|integer",
-            "box_date" => "required|string"
+            "mozo_id" => "sometimes|integer",
+            "current_user" => "sometimes|integer",
+            "box_date" => "sometimes|string"
         ]);
 
         $user = Auth::user();
