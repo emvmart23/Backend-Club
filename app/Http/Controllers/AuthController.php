@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register( Request $request ){
+    public function register(Request $request)
+    {
         $data = $request->validate([
             "user" => "required|unique:users",
             "name" => "required|string",
@@ -19,6 +19,7 @@ class AuthController extends Controller
             "role_id" => "required|integer",
             "is_active" => "boolean"
         ]);
+
 
         $userData = $data;
         $user = User::create($userData);
@@ -36,6 +37,7 @@ class AuthController extends Controller
             "user" => "required",
             "password" => "required",
         ]);
+
 
         $user = User::where("user", $data["user"])->first();
 

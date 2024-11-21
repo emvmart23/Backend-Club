@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("detail_id");
-            $table->string("payment_method");
+            $table->unsignedBigInteger("payment_id");
             $table->decimal("mountain",9,2);
             $table->string("reference");
             $table->timestamps();
 
             $table->foreign("detail_id")->references("id")->on("details");
+            $table->foreign("payment_id")->references("id")->on("method_payments");
+
         });
     }
 

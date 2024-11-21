@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Role;
 
 use Illuminate\Http\Request;
@@ -16,8 +17,7 @@ class RoleController extends Controller
             "role_name" => "required|string",
         ]);
 
-        $roleData = $data;
-        $role = Role::create($roleData);
+        $role = Role::create($data);
 
         return response()->json([
             "role" => $role
@@ -39,19 +39,19 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $role = Role::find($id);
-
-        if(!$role){
-            return response()->json([
-                "message" => "Role not found"
-            ],404);
-        }
-
         $data = $request->validate([
             "role_name" => "sometimes|string",
         ]);
+
+        $role = Role::find($id);
+
+        if (!$role) {
+            return response()->json([
+                "message" => "Role not found"
+            ], 404);
+        }
 
         $role->update($data);
 
@@ -67,10 +67,10 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
 
-        if(!$role){
+        if (!$role) {
             return response()->json([
                 "message" => "Customer not found"
-            ],404);
+            ], 404);
         }
 
         $role->delete();

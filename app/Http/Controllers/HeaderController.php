@@ -14,17 +14,17 @@ class HeaderController extends Controller
     {
         $data = $request->validate([
             "mozo_id" => "required|integer",
-            "current_user" => "sometimes|integer",
-            "box_date" => "sometimes|string"
+            "current_user" => "required|integer",
+            "box_date" => "required|string"
         ]);
 
         $user = Auth::user();
         $latestBox = Box::latest()->first();
-
+        
         if (!$latestBox) {
             return response()->json(["error" => "No hay cajas disponibles"], 404);
         }
-        
+
         $header = Header::create([
             "mozo_id" => $data["mozo_id"],
             "current_user" => $user->id,
@@ -37,8 +37,8 @@ class HeaderController extends Controller
     }
 
     public function show()
-    {   
-        $headers = Header::with('user', 'orders.user','orders.product')->get()->map(function ($header) {
+    {
+        $headers = Header::with('user', 'orders.user', 'orders.product')->get()->map(function ($header) {
             return [
                 'id' => $header->id,
                 'mozo_id' => $header->mozo_id,
@@ -89,7 +89,8 @@ class HeaderController extends Controller
         ], 200);
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $header = Header::find($id);
 
         if (!$header) {
@@ -97,8 +98,9 @@ class HeaderController extends Controller
                 "message" => "Header not found"
             ], 404);
         }
-        
+
         $header->state_doc = null;
+        $header->state = null;
         $header->save();
 
         return response()->json([

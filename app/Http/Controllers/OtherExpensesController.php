@@ -7,7 +7,6 @@ use App\Models\OtherExpense;
 use App\Models\UnitMeasure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class OtherExpensesController extends Controller
 {
@@ -22,6 +21,7 @@ class OtherExpensesController extends Controller
             "box_date" => "sometimes|string",
             "current_user" => "sometimes|integer",
         ]);
+
 
         $user = Auth::user();
         $latestBox = Box::latest()->first();
@@ -60,6 +60,13 @@ class OtherExpensesController extends Controller
 
     public function update(Request $request, $id)
     {
+        $data = $request->validate([
+            "count" => "sometimes|integer",
+            "name" => "sometimes|string",
+            "unit_id" => "sometimes|integer",
+            "total" => "sometimes|integer",
+        ]);
+
         $other = OtherExpense::find($id);
 
         if (!$other) {
@@ -67,13 +74,6 @@ class OtherExpensesController extends Controller
                 "message" => "Other not found"
             ], 404);
         }
-
-        $data = $request->validate([
-            "count" => "sometimes|integer",
-            "name" => "sometimes|string",
-            "unit_id" => "sometimes|integer",
-            "total" => "sometimes|integer",
-        ]);
 
         $other->update($data);
 

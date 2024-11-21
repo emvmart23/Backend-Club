@@ -9,7 +9,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Log;
+
 
 class OrderService extends Controller
 {
@@ -88,8 +88,6 @@ class OrderService extends Controller
     {
         $methodPayments = MethodPayment::all();
         $methodId = $methodPayments->pluck('id')->toArray();
-
-        Log::info('Method IDs:', $methodId);
 
         $latestBoxId = Box::max('id');
         $lastBox = Box::where('id', $latestBoxId)->first();

@@ -39,20 +39,20 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $customer = Customer::find($id);
-
-        if(!$customer){
-            return response()->json([
-                "message" => "Customer not found"
-            ],404);
-        }
-
         $data = $request->validate([
             "name" => "sometimes|string",
             "dni" => "sometimes|string|min:8|max:8"
         ]);
+
+        $customer = Customer::find($id);
+
+        if (!$customer) {
+            return response()->json([
+                "message" => "Customer not found"
+            ], 404);
+        }
 
         $customer->update($data);
 
@@ -68,17 +68,15 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
 
-        if(!$customer){
+        if (!$customer) {
             return response()->json([
                 "message" => "Customer not found"
-            ],404);
+            ], 404);
         }
 
         $customer->delete();
-
         return response()->json([
             "message" => "Customer deleted"
         ]);
     }
 }
-

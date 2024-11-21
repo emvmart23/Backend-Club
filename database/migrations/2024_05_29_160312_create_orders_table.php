@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id('order_id');
-            $table->string('name');
+            $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('hostess_id');
             $table->decimal('price',9,2);
             $table->integer('count');
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreign('hostess_id')->references('id')->on('users');
             $table->foreign('current_user')->references('id')->on('users');
             $table->foreign('header_id')->references('id')->on('headers');
+            $table->foreign('product_id')->references('id')->on('products');
             $table->timestamps();
         });
     }

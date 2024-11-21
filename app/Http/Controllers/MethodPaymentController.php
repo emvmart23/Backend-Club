@@ -14,7 +14,6 @@ class MethodPaymentController extends Controller
         ]);
 
         $methodPayment = MethodPayment::create($data);
-
         return response()->json(["method" => $methodPayment], 200);
     }
 
@@ -39,7 +38,6 @@ class MethodPaymentController extends Controller
         ]);
 
         $methodPayment->update($data);
-
         return response()->json(["method" => $methodPayment], 200);
     }
 

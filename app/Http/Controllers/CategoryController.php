@@ -40,19 +40,20 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $category = Category::where('category_id', $id)->first();
-
-        if(!$category){
-            return response()->json([
-                "message" => "category not found"
-            ],404);
-        }
-
         $data = $request->validate([
             "name" => "sometimes|string",
         ]);
+
+        $category = Category::where('category_id', $id)->first();
+
+        if (!$category) {
+            return response()->json([
+                "message" => "category not found"
+            ], 404);
+        }
+
 
         $category->update($data);
 
@@ -68,10 +69,10 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
 
-        if(!$category){
+        if (!$category) {
             return response()->json([
                 "message" => "category not found"
-            ],404);
+            ], 404);
         }
 
         $category->delete();

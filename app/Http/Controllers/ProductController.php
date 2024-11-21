@@ -20,8 +20,7 @@ class ProductController extends Controller
             "has_alcohol" => "required|boolean"
         ]);
 
-        $productData = $data;
-        $product = Product::create($productData);
+        $product = Product::create($data);
 
         return response()->json([
             "product" => $product
@@ -33,7 +32,7 @@ class ProductController extends Controller
      */
     public function show()
     {
-        $product = Product::with('category','unitMeasure')->get()->map(function ($product) {
+        $product = Product::with('category', 'unitMeasure')->get()->map(function ($product) {
             return [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -51,16 +50,8 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-
-        if(!$product){
-            return response()->json([
-                "message" => "Product not found"
-            ],404);
-        }
-
         $data = $request->validate([
             "name" => "sometimes|string",
             "price" => "sometimes|numeric",
@@ -68,6 +59,14 @@ class ProductController extends Controller
             "unit_id" => "sometimes|integer",
             "has_alcohol" => "sometimes|boolean"
         ]);
+
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json([
+                "message" => "Product not found"
+            ], 404);
+        }
 
         $product->update($data);
 
@@ -83,10 +82,10 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
-        if(!$product){
+        if (!$product) {
             return response()->json([
                 "message" => "Product not found"
-            ],404);
+            ], 404);
         }
 
         $product->delete();

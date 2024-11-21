@@ -14,9 +14,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitMeasureController;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\UserResource;
-use App\Models\MethodPayment;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,7 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/boxes', 'show');
         Route::post('/boxes/close/{id}', 'close');
         Route::post('/boxes/create', 'create');
-        Route::patch('/boxes/update/{id}', 'update');
     });
 
     // product actions

@@ -18,8 +18,7 @@ class UnitMeasureController extends Controller
             "description" => "required|string",
         ]);
 
-        $unitData = $data;
-        $unit = UnitMeasure::create($unitData);
+        $unit = UnitMeasure::create($data);
 
         return response()->json([
             "Unit" => $unit
@@ -43,18 +42,18 @@ class UnitMeasureController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $unit = UnitMeasure::find($id);
-
-        if(!$unit){
-            return response()->json([
-                "message" => "unit not found"
-            ],404);
-        }
-
         $data = $request->validate([
             "abbreviation" => "sometimes|string",
             "description" => "sometimes|string",
         ]);
+
+        $unit = UnitMeasure::find($id);
+
+        if (!$unit) {
+            return response()->json([
+                "message" => "unit not found"
+            ], 404);
+        }
 
         $unit->update($data);
 
@@ -70,10 +69,10 @@ class UnitMeasureController extends Controller
     {
         $unit = UnitMeasure::find($id);
 
-        if(!$unit){
+        if (!$unit) {
             return response()->json([
                 "message" => "unit not found"
-            ],404);
+            ], 404);
         }
 
         $unit->delete();

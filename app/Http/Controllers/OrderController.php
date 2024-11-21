@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessOrderJob;
 use App\Models\Box;
-use App\Models\Header;
 use App\Models\MethodPayment;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\User;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    protected $orderService;
+
+    public function  __construct(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
 
     public function create(Request $request)
     {
@@ -24,106 +31,21 @@ class OrderController extends Controller
             '*.count' => 'required|integer',
             '*.total_price' => 'required|numeric|between:0,999999.99',
             '*.order_id' => 'sometimes|integer',
-            "*.box_date" => "sometimes|string",
-            "*.current_user" => "sometimes|integer"
+            "*.box_date" => 'sometimes|string',
+            "*.current_user" => 'sometimes|integer'
         ]);
 
-        $latestorderId = Header::max('id');
         $user = Auth::user();
-        $latestBox = Box::latest()->first();
 
-        if (!$latestBox) {
-            return response()->json(["error" => "Box not found"], 404);
-        }
+        ProcessOrderJob::dispatch($validatedData, $user->id);
 
-        $orders = collect($validatedData)->map(function ($data) use ($latestorderId, $user, $latestBox) {
-            if (!array_key_exists('header_id', $data) || $data['header_id'] === null) {
-                $data['header_id'] = $latestorderId;
-                $data['box_date'] = $latestBox->opening;
-                $data['current_user'] = $user->id;
-            }
-            return Order::create($data);
-        });
-
-        return response()->json($orders, 200);
-    }
-
-    public function removeTildes($string)
-    {
-        $unwanted_array = array(
-            'Š' => 'S',
-            'š' => 's',
-            'Ž' => 'Z',
-            'ž' => 'z',
-            'À' => 'A',
-            'Á' => 'A',
-            'Â' => 'A',
-            'Ã' => 'A',
-            'Ä' => 'A',
-            'Å' => 'A',
-            'Æ' => 'A',
-            'Ç' => 'C',
-            'È' => 'E',
-            'É' => 'E',
-            'Ê' => 'E',
-            'Ë' => 'E',
-            'Ì' => 'I',
-            'Í' => 'I',
-            'Î' => 'I',
-            'Ï' => 'I',
-            'Ñ' => 'N',
-            'Ò' => 'O',
-            'Ó' => 'O',
-            'Ô' => 'O',
-            'Õ' => 'O',
-            'Ö' => 'O',
-            'Ø' => 'O',
-            'Ù' => 'U',
-            'Ú' => 'U',
-            'Û' => 'U',
-            'Ü' => 'U',
-            'Ý' => 'Y',
-            'Þ' => 'B',
-            'ß' => 'Ss',
-            'à' => 'a',
-            'á' => 'a',
-            'â' => 'a',
-            'ã' => 'a',
-            'ä' => 'a',
-            'å' => 'a',
-            'æ' => 'a',
-            'ç' => 'c',
-            'è' => 'e',
-            'é' => 'e',
-            'ê' => 'e',
-            'ë' => 'e',
-            'ì' => 'i',
-            'í' => 'i',
-            'î' => 'i',
-            'ï' => 'i',
-            'ð' => 'o',
-            'ñ' => 'n',
-            'ò' => 'o',
-            'ó' => 'o',
-            'ô' => 'o',
-            'õ' => 'o',
-            'ö' => 'o',
-            'ø' => 'o',
-            'ù' => 'u',
-            'ú' => 'u',
-            'û' => 'u',
-            'ý' => 'y',
-            'þ' => 'b',
-            'ÿ' => 'y'
-        );
-        return strtr($string, $unwanted_array);
+        return response()->json(['message' => 'received order'], 200);
     }
 
     public function show()
     {
+        $ordersData = $this->orderService;
         $methodPayments = MethodPayment::all();
-        $methodId = $methodPayments->pluck('id')->toArray();
-
         $latestBoxId = Box::max('id');
         $lastBox = Box::where('id', $latestBoxId)->first();
         $boxDate = $lastBox->opening;
@@ -133,11 +55,11 @@ class OrderController extends Controller
                 $query->where('box_date', $boxDate);
             })
             ->get()
-            ->map(function ($order) use ($methodPayments, $boxDate) {
+            ->map(function ($order) use ($methodPayments, $boxDate, $ordersData) {
                 $payments = Payment::where('detail_id', $order->header->note_sale)->get();
                 $mozo = User::where('id', $order->header->mozo_id)->first();
-                $paymentSummary = array_fill_keys($methodPayments->pluck('name')->map(function ($name) {
-                    return $this->removeTildes($name);
+                $paymentSummary = array_fill_keys($methodPayments->pluck('name')->map(function ($name) use ($ordersData) {
+                    return $ordersData->removeTildes($name);
                 })->toArray(), 0);
 
                 foreach ($payments as $payment) {
@@ -204,7 +126,7 @@ class OrderController extends Controller
             assert($group instanceof \Illuminate\Support\Collection);
             return $group->first();
         })->values());
-    
+
         $nonAlcoholOrders = $processOrders($orders->where('order.has_alcohol', 0)->groupBy('order.detail_id')->map(function ($group) {
             assert($group instanceof \Illuminate\Support\Collection);
             return $group->first();

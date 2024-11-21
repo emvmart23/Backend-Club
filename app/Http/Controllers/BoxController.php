@@ -42,29 +42,6 @@ class BoxController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
-    {
-
-        $box = Box::find($id);
-
-        if (!$box) {
-            return response()->json([
-                "message" => "Box not found"
-            ], 404);
-        }
-
-        $data = $request->validate([
-            "initial_balance" => "sometimes|numeric|between:0,999999.99",
-        ]);
-
-        $box->update($data);
-
-        return response()->json([
-            "message" => "Box updated"
-        ]);
-    }
-
-
     public function __construct(OrderService $orderService)
     {
         $this->orderService = $orderService;
@@ -106,17 +83,18 @@ class BoxController extends Controller
                 $attendance->box_date === $latestBox->opening &&
                 ($attendance->role_user === 4 || $attendance->role_user === 8);
         });
+
         $result = $presentUsers->map(function ($user) use ($headers, $latestBox) {
             $sales = collect($headers)->filter(function ($header) use ($latestBox) {
                 return $header->box_date === $latestBox->opening && $header->state_doc === 0;
             })->flatMap(function ($header) {
                 return $header->orders ?? collect();
             });
-            Log::info(['sales', $sales]);
+
             $totalSale = $this->currentSale($sales, $user->user_id);
 
             $comission = $totalSale * ($user->profit_margin / 100);
-            Log::info(['comission', $comission]);
+
             return (object) [
                 'total' => (float) $user->salary + $comission
             ];
@@ -125,10 +103,15 @@ class BoxController extends Controller
         $totalSalary = $result->reduce(function ($acc, $curr) {
             return $acc + $curr->total;
         }, 0);
+
         $totalExpenses = $this->calculateTotalExpenses($latestBox->opening);
+
         $total =  $totalSalary + $totalExpenses - $ordersData->original;
+
         $total = $totalSalary + $totalExpenses - $ordersData->original;
+
         $total = abs($total);
+
         return $total;
     }
 
@@ -152,7 +135,6 @@ class BoxController extends Controller
     {
         $user = Auth::user();
         $ldate = date('Y-m-d');
-        Log::info(['fecha', $ldate]);
         $box = Box::find($id);
 
         $box->final_balance = $this->finalBalance();
